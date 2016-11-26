@@ -1,0 +1,12 @@
+﻿<Application
+    x:Class="NoBSCRM.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NoBSCRM"
+    xmlns:vm="using:NoBSCRM.ViewModels"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <vm:ViewModelLocator xmlns:vm="using:NoBSCRM.ViewModels" x:Key="Locator"/>
+    </Application.Resources>
+
+</Application>
