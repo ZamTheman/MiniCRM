@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NoBSCRM.ViewModels
+namespace NoBSCRM.Utils
 {
-    public interface ICompanyListViewModel : IViewModel
+    public class TemplateCollection : System.Collections.ObjectModel.Collection<Template>
     {
+
     }
 }

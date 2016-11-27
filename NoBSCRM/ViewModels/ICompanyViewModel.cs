@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NoBSCRM.ViewModels
 {
-    public interface ICompanyViewModel
+    public interface ICompanyViewModel : IViewModel
     {
 
     }

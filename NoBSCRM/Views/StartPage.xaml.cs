@@ -25,7 +25,6 @@ namespace NoBSCRM.Views
         public StartPage()
         {
             this.InitializeComponent();
-            MiddleFrame.Navigate(typeof(CompanyView));
         }
 
     }

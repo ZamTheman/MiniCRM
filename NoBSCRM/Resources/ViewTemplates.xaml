@@ -1,0 +1,80 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:local="using:NoBSCRM"
+    xmlns:vm="using:NoBSCRM.ViewModels"
+    xmlns:uts="using:NoBSCRM.Utils">
+
+    <DataTemplate x:Key="CompanyItemTemplate">
+        <StackPanel>
+            <Rectangle Width="100" Height="100" Fill="#FFC33131" />
+            <TextBlock Text="{Binding Name}"/>
+            <TextBlock Text="{Binding City}"/>
+        </StackPanel>
+    </DataTemplate>
+    <uts:TemplateCollection x:Key="Templates">
+        <uts:Template DataType="NoBSCRM.ViewModels.CompanyViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Disabled">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                                <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                                <TextBox x:Name="CustomerNameTextBox" Text="{Binding CompanyName}" Height="30" Width="250"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                                <TextBlock Text="City:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                                <TextBox x:Name="CustomerCityTextBox" Text="{Binding CompanyCity}" Height="30" Width="250"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                                <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                                <TextBox x:Name="CustomerPhoneTextBox" Text="{Binding CompanyPhone}" Height="30" Width="250"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                                <TextBlock Text="Visiting Adress:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                                <TextBox x:Name="CustomerStreetTextBox" Text="{Binding CompanyStreet}" Height="30" Width="250"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <ToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0">
+                                    <ToggleButton.Foreground>
+                                        <ImageBrush Stretch="Fill"/>
+                                    </ToggleButton.Foreground>
+                                    <ToggleButton.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Employee.png"/>
+                                    </ToggleButton.Background>
+                                </ToggleButton>
+                                <ToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0">
+                                    <ToggleButton.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Todo.png"/>
+                                    </ToggleButton.Background>
+                                </ToggleButton>
+                                <ToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0">
+                                    <ToggleButton.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/History.png"/>
+                                    </ToggleButton.Background>
+                                </ToggleButton>
+                            </StackPanel>
+                            <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"/>
+                            <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedTodo, Mode=TwoWay}"/>
+                            <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedHistory, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+        <uts:Template DataType="NoBSCRM.ViewModels.CompanyListViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ListView x:Name="listView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                    </ScrollViewer>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+    </uts:TemplateCollection>
+    <uts:MyDataTemplateSelector x:Key="MyDataTemplateSelector" Templates="{StaticResource Templates}"></uts:MyDataTemplateSelector>
+</ResourceDictionary>
+

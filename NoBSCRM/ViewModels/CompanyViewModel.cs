@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.Unity;
 using NoBSCRM.Messages;
 using NoBSCRM.Models;
+using NoBSCRM.Repositories;
 using NoBSCRM.Utils;
 
 namespace NoBSCRM.ViewModels
@@ -94,7 +95,7 @@ namespace NoBSCRM.ViewModels
             set
             {
                 Set(() => SelectedCompany, ref _selectedCompany, value);
-                UpdateFields();
+                UpdateAllFields();
             }
         }
 
@@ -147,20 +148,31 @@ namespace NoBSCRM.ViewModels
             set { Set(() => CompanyEmployees, ref _companyEmployees, value); }
         }
 
+        private IRepository _repository;
+        private IReader _reader;
+        private IWriter _writer;
+
         #endregion
 
         // Commands
         public RelayCommand SaveCustomerCommand { get; private set; }
         
         // Constructor
-        public CompanyViewModel()
+        public CompanyViewModel(IRepository repository, IReader reader, IWriter writer)
         {
-            //this._container = container;
+            this._repository = repository;
+            this._writer = writer;
+            this._reader = reader;
             SaveCustomerCommand = new RelayCommand(SaveCustomer, CanSaveCustomer);
             Messenger.Default.Register<MessageCommunicator>(this, (company) =>
             {
                 this.SelectedCompany = company.selectedCompany;
             });
+        }
+
+        public CompanyViewModel()
+        {
+            
         }
         
         private bool CanSaveCustomer()
@@ -179,7 +191,7 @@ namespace NoBSCRM.ViewModels
             throw new NotImplementedException();
         }
 
-        private void UpdateFields()
+        private void UpdateAllFields()
         {
             CompanyName = SelectedCompany.Name;
             CompanyPhone = SelectedCompany.Phone;

@@ -98,14 +98,18 @@
     <Compile Include="Messages\MessageCommunicator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Utils\EnumerableHelpers.cs" />
+    <Compile Include="Utils\MyDataTemplateSelector.cs" />
     <Compile Include="Utils\NotifyTaskCompletion.cs" />
     <Compile Include="Utils\ObservableCollectionHelpers.cs" />
+    <Compile Include="Utils\Template.cs" />
+    <Compile Include="Utils\TemplateCollection.cs" />
     <Compile Include="Utils\UnityServiceProvider.cs" />
     <Compile Include="ViewModels\CompanyListViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
     <Compile Include="ViewModels\ICompanyListViewModel.cs" />
     <Compile Include="ViewModels\ICompanyViewModel.cs" />
     <Compile Include="ViewModels\IStartPageViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\CompanyView.xaml.cs">
@@ -182,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Resources\ViewTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CompanyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
