@@ -8,6 +8,7 @@
     xmlns:vm="using:NoBSCRM.ViewModels"
     xmlns:uts="using:NoBSCRM.Utils">
 
+    <!-- Item Tempates -->
     <DataTemplate x:Key="CompanyItemTemplate">
         <StackPanel>
             <Rectangle Width="100" Height="100" Fill="#FFC33131" />
@@ -15,7 +16,39 @@
             <TextBlock Text="{Binding City}"/>
         </StackPanel>
     </DataTemplate>
+    <DataTemplate x:Key="EmployeeItemTemplate">
+        <StackPanel>
+            <TextBlock Text="{Binding Name}"/>
+            <TextBlock Text="{Binding Position}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="TodoItemTemplate">
+        <StackPanel>
+            <TextBlock Text="{Binding Date}"/>
+            <TextBlock Text="{Binding Description}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="HistoryItemTemplate">
+        <StackPanel>
+            <TextBlock Text="{Binding Date}"/>
+            <TextBlock Text="{Binding Post}"/>
+        </StackPanel>
+    </DataTemplate>
+    <!-- End Item Templates -->
+    
+    <!-- ViewModel templates-->
     <uts:TemplateCollection x:Key="Templates">
+        <!-- CompanyListViewTemplate-->
+        <uts:Template DataType="NoBSCRM.ViewModels.CompanyListViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                    </ScrollViewer>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+        <!-- CompanyViewTemplate-->
         <uts:Template DataType="NoBSCRM.ViewModels.CompanyViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
@@ -57,24 +90,17 @@
                                     </ToggleButton.Background>
                                 </ToggleButton>
                             </StackPanel>
-                            <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"/>
-                            <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedTodo, Mode=TwoWay}"/>
-                            <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedHistory, Mode=TwoWay}"/>
+                            <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}"/>
+                            <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedTodo, Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}"/>
+                            <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedHistory, Mode=TwoWay }" ItemTemplate="{StaticResource HistoryItemTemplate}"/>
                         </StackPanel>
                     </ScrollViewer>
                 </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>
-        <uts:Template DataType="NoBSCRM.ViewModels.CompanyListViewModel">
-            <uts:Template.DataTemplate>
-                <DataTemplate>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ListView x:Name="listView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
-                    </ScrollViewer>
-                </DataTemplate>
-            </uts:Template.DataTemplate>
-        </uts:Template>
     </uts:TemplateCollection>
-    <uts:MyDataTemplateSelector x:Key="MyDataTemplateSelector" Templates="{StaticResource Templates}"></uts:MyDataTemplateSelector>
+    <!-- end ViewModel templates-->
+    
+    <uts:MyDataTemplateSelector x:Key="MyDataTemplateSelector" Templates="{StaticResource Templates}"/>
 </ResourceDictionary>
 
