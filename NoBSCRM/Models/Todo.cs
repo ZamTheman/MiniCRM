@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight;
 
 namespace NoBSCRM.Models
 {
-    public class Todo : ObservableObject
+    public class Todo : ObservableObject, IEntity
     {
         [XmlIgnore]
         public DateTime date { get; set; }

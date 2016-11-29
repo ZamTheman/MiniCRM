@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight;
 
 namespace NoBSCRM.Models
 {
-    public class HistoryPost : ObservableObject
+    public class HistoryPost : ObservableObject, IEntity
     {
         [XmlIgnore]
         private DateTime date;

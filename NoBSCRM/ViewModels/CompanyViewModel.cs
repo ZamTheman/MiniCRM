@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Data;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Practices.Unity;
 using NoBSCRM.Messages;
 using NoBSCRM.Models;
 using NoBSCRM.Repositories;
@@ -16,39 +14,13 @@ namespace NoBSCRM.ViewModels
     {
         #region Properties
 
-        private Todo _selectedTodo;
-        public Todo SelectedTodo
+        private IEntity _selectedEntity;
+        public IEntity SelectedEntity
         {
-            get { return _selectedTodo; }
+            get { return _selectedEntity;}
             set
             {
-                if (_selectedTodo == value)
-                    return;
-                Set(() => SelectedTodo, ref _selectedTodo, value);
-            }
-        }
-
-        private Employee _selectedEmployee;
-        public Employee SelectedEmployee
-        {
-            get { return _selectedEmployee; }
-            set
-            {
-                if (_selectedEmployee == value)
-                    return;
-                Set(() => SelectedEmployee, ref _selectedEmployee, value);
-            }
-        }
-
-        private HistoryPost _selectedHistory;
-        public HistoryPost SelectedHistory
-        {
-            get { return _selectedHistory; }
-            set
-            {
-                if (_selectedHistory == value)
-                    return;
-                Set(() => SelectedHistory, ref _selectedHistory, value);
+                Set(() => SelectedEntity, ref _selectedEntity, value);
             }
         }
 
@@ -59,8 +31,6 @@ namespace NoBSCRM.ViewModels
             set
             {
                 Set(() => ViewEmployees, ref _viewEmployees, value);
-                Set(() => ViewTodos, ref _viewTodos, false);
-                Set(() => ViewHistories, ref _viewHistories, false);
             }
         }
 
@@ -70,9 +40,7 @@ namespace NoBSCRM.ViewModels
             get { return _viewTodos; }
             set
             {
-                Set(() => ViewEmployees, ref _viewEmployees, false);
                 Set(() => ViewTodos, ref _viewTodos, value);
-                Set(() => ViewHistories, ref _viewHistories, false);
             }
         }
 
@@ -82,8 +50,6 @@ namespace NoBSCRM.ViewModels
             get { return _viewHistories; }
             set
             {
-                Set(() => ViewEmployees, ref _viewEmployees, false);
-                Set(() => ViewTodos, ref _viewTodos, false);
                 Set(() => ViewHistories, ref _viewHistories, value);
             }
         }
@@ -156,7 +122,11 @@ namespace NoBSCRM.ViewModels
 
         // Commands
         public RelayCommand SaveCustomerCommand { get; private set; }
-        
+        public RelayCommand EmplyeeListActiveCommand { get; private set; }
+        public RelayCommand TodoListActiveCommand { get; private set; }
+        public RelayCommand HistoryListActiveCommand { get; private set; }
+
+
         // Constructor
         public CompanyViewModel(IRepository repository, IReader reader, IWriter writer)
         {
@@ -164,6 +134,9 @@ namespace NoBSCRM.ViewModels
             this._writer = writer;
             this._reader = reader;
             SaveCustomerCommand = new RelayCommand(SaveCustomer, CanSaveCustomer);
+            EmplyeeListActiveCommand = new RelayCommand(ToggleEmployeeListVisibility);
+            TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
+            HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
             Messenger.Default.Register<MessageCommunicator>(this, (company) =>
             {
                 this.SelectedCompany = company.selectedCompany;
@@ -184,6 +157,24 @@ namespace NoBSCRM.ViewModels
                 return true;
 
             return false;
+        }
+
+        private void ToggleEmployeeListVisibility()
+        {
+            ViewTodos = false;
+            ViewHistories = false;
+        }
+
+        private void ToggleTodoListVisibility()
+        {
+            ViewEmployees = false;
+            ViewHistories = false;
+        }
+
+        private void ToggleHistoryListVisibility()
+        {
+            ViewEmployees = false;
+            ViewTodos = false;
         }
 
         private void SaveCustomer()

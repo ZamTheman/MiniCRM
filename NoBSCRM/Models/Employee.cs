@@ -2,7 +2,7 @@
 
 namespace NoBSCRM.Models
 {
-    public class Employee : ObservableObject
+    public class Employee : ObservableObject, IEntity
     {
         public string Name { get; set; }
         public string Phone { get; set; }

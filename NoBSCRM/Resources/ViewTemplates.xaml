@@ -71,28 +71,25 @@
                                 <TextBox x:Name="CustomerStreetTextBox" Text="{Binding CompanyStreet}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="10">
-                                <ToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0">
-                                    <ToggleButton.Foreground>
-                                        <ImageBrush Stretch="Fill"/>
-                                    </ToggleButton.Foreground>
+                                <ToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0" Command="{Binding EmplyeeListActiveCommand}" IsChecked="{Binding ViewEmployees, Mode=TwoWay}">
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Employee.png"/>
                                     </ToggleButton.Background>
                                 </ToggleButton>
-                                <ToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0">
+                                <ToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding TodoListActiveCommand}" IsChecked="{Binding ViewTodos, Mode=TwoWay}">
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Todo.png"/>
                                     </ToggleButton.Background>
                                 </ToggleButton>
-                                <ToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0">
+                                <ToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding HistoryListActiveCommand}" IsChecked="{Binding ViewHistories, Mode=TwoWay}">
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/History.png"/>
                                     </ToggleButton.Background>
                                 </ToggleButton>
                             </StackPanel>
-                            <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}"/>
-                            <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedTodo, Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}"/>
-                            <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedHistory, Mode=TwoWay }" ItemTemplate="{StaticResource HistoryItemTemplate}"/>
+                            <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}" Visibility="{Binding ViewEmployees}"/>
+                            <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}" Visibility="{Binding ViewTodos}"/>
+                            <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource HistoryItemTemplate}" Visibility="{Binding ViewHistories}"/>
                         </StackPanel>
                     </ScrollViewer>
                 </DataTemplate>
