@@ -175,18 +175,21 @@ namespace NoBSCRM.ViewModels
         {
             ViewTodos = false;
             ViewHistories = false;
+            SelectedEntity = null;
         }
 
         private void ToggleTodoListVisibility()
         {
             ViewEmployees = false;
             ViewHistories = false;
+            SelectedEntity = null;
         }
 
         private void ToggleHistoryListVisibility()
         {
             ViewEmployees = false;
             ViewTodos = false;
+            SelectedEntity = null;
         }
 
         private void SaveCustomer()

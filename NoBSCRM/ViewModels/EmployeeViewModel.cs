@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,14 +53,14 @@ namespace NoBSCRM.ViewModels
         }
 
         private string _eMail;
-        public string Email
+        public string EMail
         {
             get { return _eMail; }
             set
             {
                 if (value == _eMail)
                     return;
-                Set(() => Email, ref _eMail, value);
+                Set(() => EMail, ref _eMail, value);
             }
         }
 
@@ -84,7 +85,17 @@ namespace NoBSCRM.ViewModels
                 if (value == _activEmployee)
                     return;
                 Set(() => ActiveEntity as Employee, ref _activEmployee, value as Employee);
+                UpdateAllFields();
             }
+        }
+
+        private void UpdateAllFields()
+        {
+            Name = _activEmployee.Name;
+            Phone = _activEmployee.Phone;
+            Mobile = _activEmployee.Mobil;
+            EMail = _activEmployee.EMail;
+            Position = _activEmployee.Position;
         }
 
         [InjectionConstructor]

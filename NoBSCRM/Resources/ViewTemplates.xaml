@@ -4,8 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:local="using:NoBSCRM"
-    xmlns:vm="using:NoBSCRM.ViewModels"
     xmlns:uts="using:NoBSCRM.Utils">
 
     <!-- Item Tempates -->
@@ -42,7 +40,8 @@
         <uts:Template DataType="CompanyListViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
-                     <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                     <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
+                               ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
                  </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>
@@ -115,6 +114,40 @@
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Position:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
                             <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position}" Height="30" Width="250"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+        <!-- TodoViewTemplate-->
+        <uts:Template DataType="TodoViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <DatePicker x:Name="TodoDatePicker" Date="{Binding Date}" Height="40" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description}" TextWrapping="Wrap" Height="30" Width="250"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+        <!-- TodoViewTemplate-->
+        <uts:Template DataType="HistoryViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date}" Height="40" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post}" TextWrapping="Wrap" Height="30" Width="250"/>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

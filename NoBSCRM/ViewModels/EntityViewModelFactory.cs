@@ -14,13 +14,11 @@ namespace NoBSCRM.ViewModels
         
         public IEntityViewModel GetEntityViewModel(string type, IEntity entity)
         {
-            _container.RegisterType<IEntityViewModel, EmployeeViewModel>("Employee", new InjectionConstructor(entity as Employee));
-            _container.RegisterType<IEntityViewModel, TodoViewModel>("Todo");
-            _container.RegisterType<IEntityViewModel, HistoryViewModel>("HistoryPost");
+            _container.RegisterType<IEntityViewModel, EmployeeViewModel>("Employee", new InjectionConstructor(entity));
+            _container.RegisterType<IEntityViewModel, TodoViewModel>("Todo", new InjectionConstructor(entity));
+            _container.RegisterType<IEntityViewModel, HistoryViewModel>("HistoryPost", new InjectionConstructor(entity));
 
             return _container.Resolve<IEntityViewModel>(type);
         }
     }
-
-    
 }
