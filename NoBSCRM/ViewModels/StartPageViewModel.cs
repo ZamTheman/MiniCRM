@@ -24,10 +24,6 @@ namespace NoBSCRM.ViewModels
                 Set(() => IsLoading, ref _isLoading, value);
             }
         }
-
-        private IRepository _repository;
-        private IReader _reader;
-        private IWriter _writer;
         
         private IViewModel _firstColumnViewModel;
         public IViewModel FirstColumnViewModel { get { return _firstColumnViewModel;} set
@@ -61,14 +57,17 @@ namespace NoBSCRM.ViewModels
             }
         }
 
-        public StartPageViewModel(IRepository repository, IReader reader, IWriter writer)
+        public StartPageViewModel(IEntityViewModelFactory entityViewModelFactory, ICompanyViewModel companyViewModel, ICompanyListViewModel companyListViewModel)
         {
-            this._repository = repository;
-            this._reader = reader;
-            this._writer = writer;
-            FirstColumnViewModel = new CompanyListViewModel(_repository, _reader, _writer);
-            SecondColumnViewModel = new CompanyViewModel(_repository, _reader, _writer);
+            FirstColumnViewModel = companyListViewModel;
+            SecondColumnViewModel = companyViewModel;
             ThirdColumnViewModel = null;
+            Messenger.Default.Register<SelectedEntityMessenger>(this, (entity) =>
+            {
+                var type = entity.SelectedEntity.GetType().ToString();
+                string[] tempArray = type.Split('.');
+                ThirdColumnViewModel = entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length-1], entity.SelectedEntity);
+            });
         }
     }
 }

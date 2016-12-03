@@ -30,13 +30,19 @@
             <Button Content="3" Height="30" Width="30" Margin="5,0"/>
         </StackPanel>
         <Grid x:Name="FirstGridColumn" Grid.Row="1" Grid.Column="0">
-            <ContentControl Content="{Binding FirstColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            <ScrollViewer>
+                <ContentControl Content="{Binding FirstColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            </ScrollViewer>
         </Grid>
         <Grid x:Name="SecondGridColumn" Grid.Row="1" Grid.Column="1">
-            <ContentControl Content="{Binding SecondColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            <ScrollViewer>
+                <ContentControl Content="{Binding SecondColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            </ScrollViewer>
         </Grid>
         <Grid x:Name="ThirdGridColumn" Grid.Row="1" Grid.Column="2">
-            <ContentControl Content="{Binding ThirdColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            <ScrollViewer>
+                <ContentControl Content="{Binding ThirdColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>

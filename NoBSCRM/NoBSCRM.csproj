@@ -95,7 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Messages\MessageCommunicator.cs" />
+    <Compile Include="Messages\SelectedCompanyMessenger.cs" />
+    <Compile Include="Messages\SelectedEntityMessenger.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Utils\EnumerableHelpers.cs" />
@@ -107,11 +108,17 @@
     <Compile Include="Utils\UnityServiceProvider.cs" />
     <Compile Include="ViewModels\CompanyListViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\EntityViewModelFactory.cs" />
+    <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="ViewModels\ICompanyListViewModel.cs" />
     <Compile Include="ViewModels\ICompanyViewModel.cs" />
+    <Compile Include="ViewModels\IEntityViewModel.cs" />
+    <Compile Include="ViewModels\IEntityViewModelFactory.cs" />
     <Compile Include="ViewModels\IStartPageViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
+    <Compile Include="ViewModels\TodoViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\CompanyView.xaml.cs">
       <DependentUpon>CompanyView.xaml</DependentUpon>

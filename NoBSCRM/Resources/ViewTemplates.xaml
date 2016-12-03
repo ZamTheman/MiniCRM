@@ -39,20 +39,17 @@
     <!-- ViewModel templates-->
     <uts:TemplateCollection x:Key="Templates">
         <!-- CompanyListViewTemplate-->
-        <uts:Template DataType="NoBSCRM.ViewModels.CompanyListViewModel">
+        <uts:Template DataType="CompanyListViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
-                    </ScrollViewer>
-                </DataTemplate>
+                     <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                 </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>
         <!-- CompanyViewTemplate-->
-        <uts:Template DataType="NoBSCRM.ViewModels.CompanyViewModel">
+        <uts:Template DataType="CompanyViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
-                    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Disabled">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
@@ -91,7 +88,35 @@
                             <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}" Visibility="{Binding ViewTodos}"/>
                             <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource HistoryItemTemplate}" Visibility="{Binding ViewHistories}"/>
                         </StackPanel>
-                    </ScrollViewer>
+                </DataTemplate>
+            </uts:Template.DataTemplate>
+        </uts:Template>
+        <!-- EmployeeViewTemplate-->
+        <uts:Template DataType="EmployeeViewModel">
+            <uts:Template.DataTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeeNameTextBox" Text="{Binding Name}" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeePhoneTextBox" Text="{Binding Phone}" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Mobile:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeeMobileTextBox" Text="{Binding Mobile}" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="EMail:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeeEMailTextBox" Text="{Binding EMail}" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                            <TextBlock Text="Position:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position}" Height="30" Width="250"/>
+                        </StackPanel>
+                    </StackPanel>
                 </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>

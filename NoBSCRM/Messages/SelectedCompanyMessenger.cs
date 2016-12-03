@@ -8,8 +8,8 @@ using NoBSCRM.Models;
 
 namespace NoBSCRM.Messages
 {
-    public class MessageCommunicator
+    public class SelectedCompanyMessenger
     {
-        public Company selectedCompany { get; set; }
+        public Company SelectedCompany { get; set; }
     }
 }

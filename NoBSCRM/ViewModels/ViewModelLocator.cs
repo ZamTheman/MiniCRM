@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;  
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using NoBSCRM.Models;
 using NoBSCRM.Repositories;
 using NoBSCRM.Utils;
 using UnityServiceLocator = Microsoft.Practices.Unity.UnityServiceLocator;
@@ -41,7 +42,7 @@ namespace NoBSCRM.ViewModels
             unityContainer.RegisterType<IRepository, Repository>();
             unityContainer.RegisterType<IReader, XMLReader>();
             unityContainer.RegisterType<IWriter, XMLWriter>();
-            
+            unityContainer.RegisterType<IEntityViewModelFactory, EntityViewModelFactory>();
         }
 
         // <summary>

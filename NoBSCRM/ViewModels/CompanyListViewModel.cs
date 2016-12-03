@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -22,11 +23,11 @@ namespace NoBSCRM.ViewModels
 
         public Task Initialization { get; private set; }
 
+        private Company _selectedCompany;
         private IRepository _repository;
         private IReader _reader;
         private IWriter _writer;
 
-        private Company _selectedCompany;
         public Company SelectedCompany
         {
             get { return _selectedCompany; }
@@ -39,11 +40,14 @@ namespace NoBSCRM.ViewModels
             }
         }
 
+        
+
+
         public CompanyListViewModel(IRepository repository, IReader reader, IWriter writer)
         {
-            this._repository = repository;
-            this._writer = writer;
-            this._reader = reader;
+            _writer = writer;
+            _reader = reader;
+            _repository = repository;
             SendCompanyCommand = new RelayCommand<Company>(SendSelectedCompany);
             Initialization = LoadDataAsync();
         }
@@ -52,7 +56,7 @@ namespace NoBSCRM.ViewModels
         {
             if (company != null)
             {
-                Messenger.Default.Send<MessageCommunicator>(new MessageCommunicator() { selectedCompany = company });
+                Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
             }
         }
 

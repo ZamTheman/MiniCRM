@@ -31,7 +31,8 @@ namespace NoBSCRM.Utils
             if (item != null)
             {
                 var dataType = item.GetType().ToString();
-                var match = _templateCache.Where(m => m.DataType.ToString() == dataType).FirstOrDefault();
+                string[] tempArray = dataType.Split('.');
+                var match = _templateCache.Where(m => m.DataType == tempArray[tempArray.Length-1]).FirstOrDefault();
 
                 if (match != null)
                     return match.DataTemplate;

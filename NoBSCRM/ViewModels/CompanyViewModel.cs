@@ -20,7 +20,10 @@ namespace NoBSCRM.ViewModels
             get { return _selectedEntity;}
             set
             {
+                if (value == _selectedEntity)
+                    return;
                 Set(() => SelectedEntity, ref _selectedEntity, value);
+                EntitySelected(_selectedEntity);
             }
         }
 
@@ -125,7 +128,7 @@ namespace NoBSCRM.ViewModels
         public RelayCommand EmplyeeListActiveCommand { get; private set; }
         public RelayCommand TodoListActiveCommand { get; private set; }
         public RelayCommand HistoryListActiveCommand { get; private set; }
-
+        public RelayCommand<IEntity> EntitySelectedCommand { get; private set; }
 
         // Constructor
         public CompanyViewModel(IRepository repository, IReader reader, IWriter writer)
@@ -137,9 +140,10 @@ namespace NoBSCRM.ViewModels
             EmplyeeListActiveCommand = new RelayCommand(ToggleEmployeeListVisibility);
             TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
             HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
-            Messenger.Default.Register<MessageCommunicator>(this, (company) =>
+            EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
+            Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
-                this.SelectedCompany = company.selectedCompany;
+                this.SelectedCompany = company.SelectedCompany;
             });
         }
 
@@ -147,7 +151,15 @@ namespace NoBSCRM.ViewModels
         {
             
         }
-        
+
+        private void EntitySelected(IEntity entity)
+        {
+            if (entity != null)
+            {
+                Messenger.Default.Send<SelectedEntityMessenger>(new SelectedEntityMessenger() { SelectedEntity = entity });
+            }
+        }
+
         private bool CanSaveCustomer()
         {
             if (CompanyName != SelectedCompany.Name || CompanyCity != SelectedCompany.Phone ||
