@@ -42,19 +42,27 @@ namespace NoBSCRM.Utils
                 {
                     string[] temdDateAsString = todo.Element("Date").Value.Split('-');
                     todos.Add(new Todo() {
-                        Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2])), Description = todo.Element("Description").Value });
+                        Id = int.Parse(todo.Element("Id").Value),
+                        Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2].Substring(0,2))),
+                        Description = todo.Element("Description").Value });
                     }
 
                 foreach (var history in xElement.Descendants("History"))
                 {
                     string[] temdDateAsString = history.Element("Date").Value.Split('-');
-                    histories.Add(new HistoryPost() {Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2])), Post = history.Element("Post").Value });
+                    histories.Add(new HistoryPost()
+                    {
+                        Id = int.Parse(history.Element("Id").Value),
+                        Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2].Substring(0,2))),
+                        Post = history.Element("Post").Value
+                    });
                 }
 
                 foreach (var employee in xElement.Descendants("Employee"))
                 {
                     employees.Add(new Employee()
                     {
+                        Id = int.Parse(employee.Element("Id").Value),
                         Name = employee.Element("Name").Value,
                         Phone = employee.Element("Phone").Value,
                         Mobil = employee.Element("Mobile").Value,
@@ -65,7 +73,7 @@ namespace NoBSCRM.Utils
 
                 var company = new Company()
                 {
-                    Id = Int32.Parse(xElement.Element("Id").Value),
+                    Id = int.Parse(xElement.Element("Id").Value),
                     Name = xElement.Element("Name").Value,
                     Phone = xElement.Element("Phone").Value,
                     City = xElement.Element("City").Value,

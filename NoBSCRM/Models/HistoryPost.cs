@@ -9,5 +9,6 @@ namespace NoBSCRM.Models
     {
         public DateTime Date { get; set; }
         public string Post { get; set; }
+        public int Id { get; set; }
     }
 }

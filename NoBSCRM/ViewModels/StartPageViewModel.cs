@@ -66,7 +66,21 @@ namespace NoBSCRM.ViewModels
             SecondColumnViewModel = companyViewModel;
             ThirdColumnViewModel = null;
             RegisterMessages();
+            //Initialization = UglyTests(); // To test stuff not accessible from unittest
         }
+
+        // Ugly test area
+
+        //public Task Initialization { get; private set; }
+
+        //private async Task UglyTests()
+        //{
+        //    var writer = new XMLWriter();
+        //    await writer.DeleteSingleEntityByIdAsync(1, new Employee() {Id = 1});
+        //    string hey = "";
+        //}
+
+        // Ugly test area end
 
         private void RegisterMessages()
         {

@@ -40,9 +40,6 @@ namespace NoBSCRM.ViewModels
             }
         }
 
-        
-
-
         public CompanyListViewModel(IRepository repository, IReader reader, IWriter writer)
         {
             _writer = writer;
@@ -59,6 +56,10 @@ namespace NoBSCRM.ViewModels
                 Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
             }
         }
+
+        // Todo
+        // Clean the generation of dummy data. Move to Mock repository?
+        //
 
         private async Task LoadDataAsync()
         {

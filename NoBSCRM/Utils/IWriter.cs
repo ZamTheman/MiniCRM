@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NoBSCRM.Models;
 
 namespace NoBSCRM.Utils
 {
@@ -8,7 +9,9 @@ namespace NoBSCRM.Utils
 
         Task SaveSingle();
 
-        Task DeleteSingleById(int id);
+        Task DeleteSingleCompanyByIdAsync(int id);
+
+        Task DeleteSingleEntityByIdAsync(int id, IEntity entity);
 
         Task UpdateSingleById(int id);
     }
