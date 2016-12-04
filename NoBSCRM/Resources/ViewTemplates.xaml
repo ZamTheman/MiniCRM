@@ -4,7 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:uts="using:NoBSCRM.Utils">
+    xmlns:uts="using:NoBSCRM.Utils"
+    xmlns:resources="using:NoBSCRM.Resources">
 
     <!-- Item Tempates -->
     <DataTemplate x:Key="CompanyItemTemplate">
@@ -126,7 +127,7 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <DatePicker x:Name="TodoDatePicker" Date="{Binding Date}" Height="40" Width="250"/>
+                            <DatePicker x:Name="TodoDatePicker" Date="{Binding Date, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
@@ -143,7 +144,7 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date}" Height="40" Width="250"/>
+                            <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
@@ -155,7 +156,12 @@
         </uts:Template>
     </uts:TemplateCollection>
     <!-- end ViewModel templates-->
-    
+
+    <!-- Template Selector -->
     <uts:MyDataTemplateSelector x:Key="MyDataTemplateSelector" Templates="{StaticResource Templates}"/>
+
+    <!-- Converters -->
+    <resources:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter"/>
+    <!-- end Converters -->
 </ResourceDictionary>
 

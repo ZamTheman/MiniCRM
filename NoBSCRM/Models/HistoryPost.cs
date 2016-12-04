@@ -7,16 +7,7 @@ namespace NoBSCRM.Models
 {
     public class HistoryPost : ObservableObject, IEntity
     {
-        [XmlIgnore]
-        private DateTime date;
-
-        [XmlElement(DataType = "string", ElementName = "Date")]
-        public string Date
-        {
-            get { return this.date.ToString("yyyy-MM-dd"); }
-            set { this.date = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture); }
-        }
-
+        public DateTime Date { get; set; }
         public string Post { get; set; }
     }
 }

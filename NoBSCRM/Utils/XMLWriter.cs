@@ -14,7 +14,8 @@ namespace NoBSCRM.Utils
     {
         private Todo CreateTodo(string date, string description)
         {
-            return new Todo() {Date = date, Description = description};
+            string[] tempDate = date.Split('-');
+            return new Todo() {Date = new DateTime(int.Parse(tempDate[0]), int.Parse(tempDate[1]), int.Parse(tempDate[2])), Description = description};
         }
 
         public async Task WriteDummyData()
@@ -47,22 +48,22 @@ namespace NoBSCRM.Utils
             });
             company.Histories.Add(new HistoryPost()
             {
-                Date = "2016-05-12",
+                Date = new DateTime(2016-05-12),
                 Post = "History post 1"
             });
             company.Histories.Add(new HistoryPost()
             {
-                Date = "2016-05-13",
+                Date = new DateTime(2016-05-13),
                 Post = "History post 2"
             });
             company.Todos.Add(new Todo()
             {
-                Date = "2016-05-14",
+                Date = new DateTime(2016,05,14),
                 Description = "Todo1"
             });
             company.Todos.Add(new Todo()
             {
-                Date = "2016-05-15",
+                Date = new DateTime(2016,05,15),
                 Description = "Todo2"
             });
 
@@ -94,22 +95,22 @@ namespace NoBSCRM.Utils
             });
             company.Histories.Add(new HistoryPost()
             {
-                Date = "2016-05-12",
+                Date = new DateTime(2016-05-12),
                 Post = "History post 3"
             });
             company.Histories.Add(new HistoryPost()
             {
-                Date = "2016-05-13",
+                Date = new DateTime(2016-05-13),
                 Post = "History post 4"
             });
             company.Todos.Add(new Todo()
             {
-                Date = "2016-05-14",
+                Date = new DateTime(2016,05,14),
                 Description = "Todo3"
             });
             company.Todos.Add(new Todo()
             {
-                Date = "2016-05-15",
+                Date = new DateTime(2016,05,15),
                 Description = "Todo4"
             });
 

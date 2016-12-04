@@ -40,13 +40,15 @@ namespace NoBSCRM.Utils
 
                 foreach(var todo in xElement.Descendants("Todo"))
                 {
+                    string[] temdDateAsString = todo.Element("Date").Value.Split('-');
                     todos.Add(new Todo() {
-                        Date = todo.Element("Date").Value, Description = todo.Element("Description").Value });
+                        Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2])), Description = todo.Element("Description").Value });
                     }
 
                 foreach (var history in xElement.Descendants("History"))
                 {
-                    histories.Add(new HistoryPost() { Date = history.Element("Date").Value, Post = history.Element("Post").Value });
+                    string[] temdDateAsString = history.Element("Date").Value.Split('-');
+                    histories.Add(new HistoryPost() {Date = new DateTime(int.Parse(temdDateAsString[0]), int.Parse(temdDateAsString[1]), int.Parse(temdDateAsString[2])), Post = history.Element("Post").Value });
                 }
 
                 foreach (var employee in xElement.Descendants("Employee"))

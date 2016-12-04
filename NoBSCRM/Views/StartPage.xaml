@@ -1,11 +1,9 @@
 ﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NoBSCRM"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:NoBSCRM.ViewModels"
-    xmlns:views="using:NoBSCRM.Views"
+    xmlns:resc="using:NoBSCRM.Resources"
     x:Class="NoBSCRM.Views.StartPage"
     mc:Ignorable="d">
     <Page.Resources>

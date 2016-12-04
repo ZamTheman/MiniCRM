@@ -99,6 +99,7 @@
     <Compile Include="Messages\SelectedEntityMessenger.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="Utils\EnumerableHelpers.cs" />
     <Compile Include="Utils\MyDataTemplateSelector.cs" />
     <Compile Include="Utils\NotifyTaskCompletion.cs" />

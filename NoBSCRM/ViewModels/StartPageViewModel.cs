@@ -15,7 +15,7 @@ namespace NoBSCRM.ViewModels
 {
     public class StartPageViewModel : ViewModelBase, IStartPageViewModel
     {
-        private bool _isLoading = false;
+        private bool _isLoading;
         public bool IsLoading
         {
             get { return _isLoading; }
@@ -56,18 +56,26 @@ namespace NoBSCRM.ViewModels
                 Set(() => ThirdColumnViewModel, ref _thirdColumnViewModel, value);
             }
         }
-
+        
+        private readonly IEntityViewModelFactory _entityViewModelFactory;
+        
         public StartPageViewModel(IEntityViewModelFactory entityViewModelFactory, ICompanyViewModel companyViewModel, ICompanyListViewModel companyListViewModel)
         {
+            _entityViewModelFactory = entityViewModelFactory;
             FirstColumnViewModel = companyListViewModel;
             SecondColumnViewModel = companyViewModel;
             ThirdColumnViewModel = null;
+            RegisterMessages();
+        }
+
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<SelectedEntityMessenger>(this, (entity) =>
             {
                 ThirdColumnViewModel = null;
                 var type = entity.SelectedEntity.GetType().ToString();
                 string[] tempArray = type.Split('.');
-                ThirdColumnViewModel = entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length-1], entity.SelectedEntity);
+                ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], entity.SelectedEntity);
             });
         }
     }
