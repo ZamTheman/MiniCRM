@@ -76,7 +76,7 @@ namespace NoBSCRM.ViewModels
         //private async Task UglyTests()
         //{
         //    var writer = new XMLWriter();
-        //    await writer.DeleteSingleEntityByIdAsync(1, new Employee() {Id = 1});
+        //    await writer.DeleteSingleEntityByIdAsync(1, new Employee() { Id = 1 });
         //    string hey = "";
         //}
 

@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:vm="using:NoBSCRM.ViewModels"
     xmlns:uts="using:NoBSCRM.Utils"
     xmlns:resources="using:NoBSCRM.Resources">
 
@@ -40,8 +41,20 @@
         <uts:Template DataType="CompanyListViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
-                     <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
+                    <StackPanel>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Filter"/>
+                                <TextBox Text="{Binding FilterText}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Delete" Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}"/>
+                                <Button Content="Add"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
                                ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                    </StackPanel>
                  </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>

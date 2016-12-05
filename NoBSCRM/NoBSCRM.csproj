@@ -109,6 +109,7 @@
     <Compile Include="Utils\UnityServiceProvider.cs" />
     <Compile Include="ViewModels\CompanyListViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
+    <Compile Include="ViewModels\DesignTimeCompanyListViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModelFactory.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -19,15 +20,17 @@ namespace NoBSCRM.ViewModels
     {
         public ObservableCollection<Company> AllCompanies { get; set; }
 
-        public RelayCommand<Company> SendCompanyCommand { get; set; }
+        public RelayCommand<Company> SendCompanyCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
 
         public Task Initialization { get; private set; }
 
-        private Company _selectedCompany;
+        
         private IRepository _repository;
         private IReader _reader;
         private IWriter _writer;
 
+        private Company _selectedCompany;
         public Company SelectedCompany
         {
             get { return _selectedCompany; }
@@ -37,6 +40,7 @@ namespace NoBSCRM.ViewModels
                     return;
                 Set(() => SelectedCompany, ref _selectedCompany, value);
                 SendCompanyCommand.Execute(value);
+                DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -46,7 +50,14 @@ namespace NoBSCRM.ViewModels
             _reader = reader;
             _repository = repository;
             SendCompanyCommand = new RelayCommand<Company>(SendSelectedCompany);
+            DeleteCommand = new RelayCommand (DeleteSelectedCompany, () => _selectedCompany != null);
             Initialization = LoadDataAsync();
+        }
+        
+        private void DeleteSelectedCompany()
+        {
+            _repository.DeleteCompany(_writer, SelectedCompany);
+            SelectedCompany = null;
         }
 
         private void SendSelectedCompany(Company company)

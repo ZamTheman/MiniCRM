@@ -16,7 +16,9 @@ namespace NoBSCRM.Repositories
 
         Task Update(IWriter writer, Company company);
 
-        Task Delete(IWriter writer, Company company);
+        Task DeleteCompany(IWriter writer, Company company);
+
+        Task DeleteEntity(IWriter writer, IEntity entity, Company company);
 
         Task WriteDummyData(IWriter writer);
     }

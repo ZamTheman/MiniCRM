@@ -28,9 +28,14 @@ namespace NoBSCRM.Repositories
             throw new System.NotImplementedException();
         }
 
-        public Task Delete(IWriter writer, Company company)
+        public async Task DeleteCompany(IWriter writer, Company company)
         {
-            throw new System.NotImplementedException();
+            await writer.DeleteSingleCompanyByIdAsync(company.Id);
+        }
+
+        public async Task DeleteEntity(IWriter writer, IEntity entity, Company company)
+        {
+            await writer.DeleteSingleEntityByIdAsync(company.Id, entity);
         }
 
         public async Task WriteDummyData(IWriter writer)

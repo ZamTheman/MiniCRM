@@ -176,14 +176,7 @@ namespace NoBSCRM.Utils
             using (stream)
             {
                 doc.Descendants("Companies").Elements("Company").FirstOrDefault(x => x.Elements("Id").Any(e => e.Value == id.ToString())).Remove();
-            }
-
-            await file.DeleteAsync();
-            file = await folder.CreateFileAsync("Data.xml", CreationCollisionOption.ReplaceExisting);
-            stream = await file.OpenStreamForWriteAsync();
-
-            using (stream)
-            {
+                
                 doc.Save(stream);
             }
         }
@@ -204,14 +197,8 @@ namespace NoBSCRM.Utils
                 comp.Descendants(typeName[2])
                     .Where(x => x.Elements("Id").Any(e => e.Value == entity.Id.ToString()))
                     .Remove();
-            }
 
-            await file.DeleteAsync();
-            file = await folder.CreateFileAsync("Data.xml", CreationCollisionOption.ReplaceExisting);
-            stream = await file.OpenStreamForWriteAsync();
-
-            using (stream)
-            {
+                stream.Seek(0, SeekOrigin.Begin);
                 doc.Save(stream);
             }
         }
