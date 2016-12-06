@@ -87,6 +87,8 @@ namespace NoBSCRM.ViewModels
             Messenger.Default.Register<SelectedEntityMessenger>(this, (entity) =>
             {
                 ThirdColumnViewModel = null;
+                if (entity.SelectedEntity == null)
+                    return;
                 var type = entity.SelectedEntity.GetType().ToString();
                 string[] tempArray = type.Split('.');
                 ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], entity.SelectedEntity);

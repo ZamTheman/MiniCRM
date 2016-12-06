@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -24,6 +25,7 @@ namespace NoBSCRM.ViewModels
                     return;
                 Set(() => SelectedEntity, ref _selectedEntity, value);
                 EntitySelected(_selectedEntity);
+                DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -128,6 +130,7 @@ namespace NoBSCRM.ViewModels
         public RelayCommand EmplyeeListActiveCommand { get; private set; }
         public RelayCommand TodoListActiveCommand { get; private set; }
         public RelayCommand HistoryListActiveCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand<IEntity> EntitySelectedCommand { get; private set; }
 
         // Constructor
@@ -141,13 +144,14 @@ namespace NoBSCRM.ViewModels
             TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
             HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
             EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
+            DeleteCommand = new RelayCommand(DeleteSelectedEntity, () => _selectedEntity != null);
             Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
                 this.SelectedCompany = company.SelectedCompany;
                 UpdateAllFields();
             });
         }
-
+        
         public CompanyViewModel()
         {
             
@@ -155,10 +159,34 @@ namespace NoBSCRM.ViewModels
 
         private void EntitySelected(IEntity entity)
         {
-            if (entity != null)
+            Messenger.Default.Send<SelectedEntityMessenger>(new SelectedEntityMessenger() { SelectedEntity = entity });
+        }
+
+        private void DeleteSelectedEntity()
+        {
+            _repository.DeleteEntity(_writer, SelectedEntity, SelectedCompany);
+            string[] type = SelectedEntity.GetType().ToString().Split('.');
+            switch (type[2])
             {
-                Messenger.Default.Send<SelectedEntityMessenger>(new SelectedEntityMessenger() { SelectedEntity = entity });
+                case "Employee":
+                    var employeeToRemove = CompanyEmployees.FirstOrDefault(c => c.Id == SelectedEntity.Id);
+                    if (employeeToRemove != null)
+                        CompanyEmployees.Remove(employeeToRemove);
+                    break;
+                case "Todo":
+                    var todoToRemove = CompanyTodos.FirstOrDefault(c => c.Id == SelectedEntity.Id);
+                    if (todoToRemove != null)
+                        CompanyTodos.Remove(todoToRemove);
+                    break;
+                case "History":
+                    var historyToRemove = CompanyEmployees.FirstOrDefault(c => c.Id == SelectedEntity.Id);
+                    if (historyToRemove != null)
+                        CompanyEmployees.Remove(historyToRemove);
+                    break;
             }
+            
+            SelectedEntity = null;
+            EntitySelected(null);
         }
 
         private bool CanSaveCustomer()

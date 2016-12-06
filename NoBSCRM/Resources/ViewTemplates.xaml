@@ -96,6 +96,10 @@
                                     </ToggleButton.Background>
                                 </ToggleButton>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+                                <Button Content="Add"/>
+                            </StackPanel>
                             <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}" Visibility="{Binding ViewEmployees}"/>
                             <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}" Visibility="{Binding ViewTodos}"/>
                             <ListView ItemsSource="{Binding CompanyHistories}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource HistoryItemTemplate}" Visibility="{Binding ViewHistories}"/>
