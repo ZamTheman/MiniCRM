@@ -57,15 +57,16 @@ namespace NoBSCRM.ViewModels
         private void DeleteSelectedCompany()
         {
             _repository.DeleteCompany(_writer, SelectedCompany);
+            var companyToRemove = AllCompanies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
+            if (companyToRemove != null)
+                AllCompanies.Remove(companyToRemove);
             SelectedCompany = null;
+            SendCompanyCommand.Execute(null);
         }
 
         private void SendSelectedCompany(Company company)
         {
-            if (company != null)
-            {
-                Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
-            }
+            Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
         }
 
         // Todo

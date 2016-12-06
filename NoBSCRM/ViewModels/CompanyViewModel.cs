@@ -144,6 +144,7 @@ namespace NoBSCRM.ViewModels
             Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
                 this.SelectedCompany = company.SelectedCompany;
+                UpdateAllFields();
             });
         }
 
@@ -199,16 +200,19 @@ namespace NoBSCRM.ViewModels
 
         private void UpdateAllFields()
         {
-            CompanyName = SelectedCompany.Name;
-            CompanyPhone = SelectedCompany.Phone;
-            CompanyCity = SelectedCompany.City;
-            CompanyStreet = SelectedCompany.Street;
+            CompanyName = SelectedCompany != null ? SelectedCompany.Name : "";
+            CompanyPhone = SelectedCompany != null ? SelectedCompany.Phone : "";
+            CompanyCity = SelectedCompany != null ? SelectedCompany.City : "";
+            CompanyStreet = SelectedCompany != null ? SelectedCompany.Street : "";
             CompanyTodos = new ObservableCollection<Todo>();
-            CompanyTodos.AddRange(SelectedCompany.Todos);
             CompanyHistories = new ObservableCollection<HistoryPost>();
-            CompanyHistories.AddRange(SelectedCompany.Histories);
             CompanyEmployees = new ObservableCollection<Employee>();
-            CompanyEmployees.AddRange(SelectedCompany.Employees);
+            if (SelectedCompany != null)
+            {
+                CompanyTodos.AddRange(SelectedCompany.Todos);
+                CompanyHistories.AddRange(SelectedCompany.Histories);
+                CompanyEmployees.AddRange(SelectedCompany.Employees);
+            }
         }
     }
 }

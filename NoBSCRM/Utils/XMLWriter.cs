@@ -176,7 +176,7 @@ namespace NoBSCRM.Utils
             using (stream)
             {
                 doc.Descendants("Companies").Elements("Company").FirstOrDefault(x => x.Elements("Id").Any(e => e.Value == id.ToString())).Remove();
-                
+                stream.SetLength(0);
                 doc.Save(stream);
             }
         }
@@ -198,7 +198,7 @@ namespace NoBSCRM.Utils
                     .Where(x => x.Elements("Id").Any(e => e.Value == entity.Id.ToString()))
                     .Remove();
 
-                stream.Seek(0, SeekOrigin.Begin);
+                stream.SetLength(0);
                 doc.Save(stream);
             }
         }
