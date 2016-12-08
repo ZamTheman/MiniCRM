@@ -101,6 +101,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="Utils\EnumerableHelpers.cs" />
+    <Compile Include="Utils\IListHelpers.cs" />
     <Compile Include="Utils\MyDataTemplateSelector.cs" />
     <Compile Include="Utils\NotifyTaskCompletion.cs" />
     <Compile Include="Utils\ObservableCollectionHelpers.cs" />

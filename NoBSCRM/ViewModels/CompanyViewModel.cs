@@ -171,17 +171,28 @@ namespace NoBSCRM.ViewModels
                 case "Employee":
                     var employeeToRemove = CompanyEmployees.FirstOrDefault(c => c.Id == SelectedEntity.Id);
                     if (employeeToRemove != null)
+                    {
                         CompanyEmployees.Remove(employeeToRemove);
+                        SelectedCompany.Employees.RemoveAll(e => e.Id == SelectedEntity.Id);
+                    }
+                        
                     break;
                 case "Todo":
                     var todoToRemove = CompanyTodos.FirstOrDefault(c => c.Id == SelectedEntity.Id);
                     if (todoToRemove != null)
+                    {
                         CompanyTodos.Remove(todoToRemove);
+                        SelectedCompany.Todos.RemoveAll(t => t.Id == SelectedEntity.Id);
+                    }
+                        
                     break;
                 case "History":
                     var historyToRemove = CompanyEmployees.FirstOrDefault(c => c.Id == SelectedEntity.Id);
                     if (historyToRemove != null)
+                    {
                         CompanyEmployees.Remove(historyToRemove);
+                        SelectedCompany.Histories.RemoveAll(h => h.Id == SelectedEntity.Id);
+                    }
                     break;
             }
             
