@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoBSCRM.Models;
-using NoBSCRM.Repositories;
-using NoBSCRM.Utils;
-using NoBSCRM.ViewModels;
+﻿using System.Threading.Tasks;
+using ModelLayer;
+using Repositories;
+using Utils;
+using ViewModels;
 using Xunit;
 
 namespace CRMTestProject.ViewModelsTests

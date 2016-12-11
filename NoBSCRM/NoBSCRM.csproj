@@ -95,52 +95,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Messages\SelectedCompanyMessenger.cs" />
-    <Compile Include="Messages\SelectedEntityMessenger.cs" />
-    <Compile Include="Models\ICompany.cs" />
-    <Compile Include="Models\IEntity.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
-    <Compile Include="Utils\EnumerableHelpers.cs" />
-    <Compile Include="Utils\IListHelpers.cs" />
-    <Compile Include="Utils\MyDataTemplateSelector.cs" />
-    <Compile Include="Utils\NotifyTaskCompletion.cs" />
-    <Compile Include="Utils\ObservableCollectionHelpers.cs" />
-    <Compile Include="Utils\Template.cs" />
-    <Compile Include="Utils\TemplateCollection.cs" />
-    <Compile Include="Utils\UnityServiceProvider.cs" />
-    <Compile Include="ViewModels\CompanyListViewModel.cs" />
-    <Compile Include="ViewModels\CompanyViewModel.cs" />
-    <Compile Include="ViewModels\DesignTimeCompanyListViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="ViewModels\EntityViewModelFactory.cs" />
-    <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\ICompanyListViewModel.cs" />
-    <Compile Include="ViewModels\ICompanyViewModel.cs" />
-    <Compile Include="ViewModels\IEntityViewModel.cs" />
-    <Compile Include="ViewModels\IEntityViewModelFactory.cs" />
-    <Compile Include="ViewModels\IStartPageViewModel.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
-    <Compile Include="ViewModels\StartPageViewModel.cs" />
-    <Compile Include="ViewModels\TodoViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\CompanyView.xaml.cs">
-      <DependentUpon>CompanyView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="UnityServiceProvider.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Company.cs" />
-    <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\HistoryPost.cs" />
-    <Compile Include="Models\Todo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="Utils\IReader.cs" />
-    <Compile Include="Utils\IWriter.cs" />
-    <Compile Include="Utils\XMLReader.cs" />
-    <Compile Include="Utils\XMLWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -199,19 +161,32 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Resources\ViewTemplates.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CompanyView.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StartPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ModelLayer\Models.csproj">
+      <Project>{006adab0-ff95-41ef-8f1a-510f89869a3b}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repositories\Repositories.csproj">
+      <Project>{8b738e5f-d1ec-42b2-a13e-e4df3d95d874}</Project>
+      <Name>Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2dab1d3f-dbf2-43b2-9adc-fe8a01eb30e7}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{2be2f601-1f6a-45de-a490-6a51963e8257}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -128,9 +128,25 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModelLayer\Models.csproj">
+      <Project>{006adab0-ff95-41ef-8f1a-510f89869a3b}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NoBSCRM\NoBSCRM.csproj">
       <Project>{2ECF3E85-AEA1-499C-B1A4-5BFC4D3A094B}</Project>
       <Name>NoBSCRM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repositories\Repositories.csproj">
+      <Project>{8b738e5f-d1ec-42b2-a13e-e4df3d95d874}</Project>
+      <Name>Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2dab1d3f-dbf2-43b2-9adc-fe8a01eb30e7}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{2be2f601-1f6a-45de-a490-6a51963e8257}</Project>
+      <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

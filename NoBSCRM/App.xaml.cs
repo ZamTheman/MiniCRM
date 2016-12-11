@@ -15,9 +15,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Unity;
-using NoBSCRM.Repositories;
-using NoBSCRM.Utils;
-using NoBSCRM.ViewModels;
 using NoBSCRM.Views;
 
 namespace NoBSCRM

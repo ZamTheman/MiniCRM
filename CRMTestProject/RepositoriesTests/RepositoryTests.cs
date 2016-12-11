@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NoBSCRM.Models;
-using NoBSCRM.Repositories;
-using NoBSCRM.Utils;
+using ModelLayer;
+using Repositories;
+using Utils;
 using Xunit;
 
 namespace CRMTestProject.RepositoriesTests
