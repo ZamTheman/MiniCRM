@@ -26,6 +26,82 @@ namespace ModelLayer
             }
         }
 
+        string global::ModelLayer.ICompany.Name
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Name_Get_Delegate>("get_Name").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<Name_Set_Delegate>("set_Name").Invoke(value);
+            }
+        }
+
+        string global::ModelLayer.ICompany.City
+        {
+            get
+            {
+                return _stubs.GetMethodStub<City_Get_Delegate>("get_City").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<City_Set_Delegate>("set_City").Invoke(value);
+            }
+        }
+
+        string global::ModelLayer.ICompany.Street
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Street_Get_Delegate>("get_Street").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<Street_Set_Delegate>("set_Street").Invoke(value);
+            }
+        }
+
+        string global::ModelLayer.ICompany.Phone
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Phone_Get_Delegate>("get_Phone").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<Phone_Set_Delegate>("set_Phone").Invoke(value);
+            }
+        }
+
+        global::System.Collections.Generic.IList<global::ModelLayer.Employee> global::ModelLayer.ICompany.Employees
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Employees_Get_Delegate>("get_Employees").Invoke();
+            }
+        }
+
+        global::System.Collections.Generic.IList<global::ModelLayer.HistoryPost> global::ModelLayer.ICompany.Histories
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Histories_Get_Delegate>("get_Histories").Invoke();
+            }
+        }
+
+        global::System.Collections.Generic.IList<global::ModelLayer.Todo> global::ModelLayer.ICompany.Todos
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Todos_Get_Delegate>("get_Todos").Invoke();
+            }
+        }
+
         public delegate int Id_Get_Delegate();
 
         public StubICompany Id_Get(Id_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
@@ -37,6 +113,94 @@ namespace ModelLayer
         public delegate void Id_Set_Delegate(int value);
 
         public StubICompany Id_Set(Id_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate string Name_Get_Delegate();
+
+        public StubICompany Name_Get(Name_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void Name_Set_Delegate(string value);
+
+        public StubICompany Name_Set(Name_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate string City_Get_Delegate();
+
+        public StubICompany City_Get(City_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void City_Set_Delegate(string value);
+
+        public StubICompany City_Set(City_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate string Street_Get_Delegate();
+
+        public StubICompany Street_Get(Street_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void Street_Set_Delegate(string value);
+
+        public StubICompany Street_Set(Street_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate string Phone_Get_Delegate();
+
+        public StubICompany Phone_Get(Phone_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void Phone_Set_Delegate(string value);
+
+        public StubICompany Phone_Set(Phone_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::System.Collections.Generic.IList<global::ModelLayer.Employee> Employees_Get_Delegate();
+
+        public StubICompany Employees_Get(Employees_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::System.Collections.Generic.IList<global::ModelLayer.HistoryPost> Histories_Get_Delegate();
+
+        public StubICompany Histories_Get(Histories_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::System.Collections.Generic.IList<global::ModelLayer.Todo> Todos_Get_Delegate();
+
+        public StubICompany Todos_Get(Todos_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
@@ -141,27 +305,27 @@ namespace Repositories
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Repositories.IRepository.DeleteCompany(global::Utils.IWriter writer, global::ModelLayer.Company company)
+        global::System.Threading.Tasks.Task global::Repositories.IRepository.DeleteCompany(global::Utils.IWriter writer, global::ModelLayer.ICompany company)
         {
-            return _stubs.GetMethodStub<DeleteCompany_IWriter_Company_Delegate>("DeleteCompany").Invoke(writer, company);
+            return _stubs.GetMethodStub<DeleteCompany_IWriter_ICompany_Delegate>("DeleteCompany").Invoke(writer, company);
         }
 
-        public delegate global::System.Threading.Tasks.Task DeleteCompany_IWriter_Company_Delegate(global::Utils.IWriter writer, global::ModelLayer.Company company);
+        public delegate global::System.Threading.Tasks.Task DeleteCompany_IWriter_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.ICompany company);
 
-        public StubIRepository DeleteCompany(DeleteCompany_IWriter_Company_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIRepository DeleteCompany(DeleteCompany_IWriter_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Repositories.IRepository.DeleteEntity(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, global::ModelLayer.Company company)
+        global::System.Threading.Tasks.Task global::Repositories.IRepository.DeleteEntity(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, global::ModelLayer.ICompany company)
         {
-            return _stubs.GetMethodStub<DeleteEntity_IWriter_IEntity_Company_Delegate>("DeleteEntity").Invoke(writer, entity, company);
+            return _stubs.GetMethodStub<DeleteEntity_IWriter_IEntity_ICompany_Delegate>("DeleteEntity").Invoke(writer, entity, company);
         }
 
-        public delegate global::System.Threading.Tasks.Task DeleteEntity_IWriter_IEntity_Company_Delegate(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, global::ModelLayer.Company company);
+        public delegate global::System.Threading.Tasks.Task DeleteEntity_IWriter_IEntity_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, global::ModelLayer.ICompany company);
 
-        public StubIRepository DeleteEntity(DeleteEntity_IWriter_IEntity_Company_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIRepository DeleteEntity(DeleteEntity_IWriter_IEntity_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

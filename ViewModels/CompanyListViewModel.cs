@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace ViewModels
     {
         public ObservableCollection<Company> AllCompanies { get; set; }
 
-        public RelayCommand<Company> SendCompanyCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand<Company> SendCompanyCommand { get; }
+        public RelayCommand DeleteCommand { get; }
 
         public Task Initialization { get; private set; }
 
@@ -26,8 +27,8 @@ namespace ViewModels
         private IReader _reader;
         private IWriter _writer;
 
-        private Company _selectedCompany;
-        public Company SelectedCompany
+        private ICompany _selectedCompany;
+        public ICompany SelectedCompany
         {
             get { return _selectedCompany; }
             set
@@ -60,7 +61,7 @@ namespace ViewModels
             SendCompanyCommand.Execute(null);
         }
 
-        private void SendSelectedCompany(Company company)
+        private void SendSelectedCompany(ICompany company)
         {
             Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
         }
@@ -79,13 +80,26 @@ namespace ViewModels
 
             catch
             {
-                await _repository.WriteDummyData(_writer);
-                companies = await _repository.GetAll(_reader) as List<Company>;
-            }
+                try
+                {
+                    await GenerateNewDataIfEmpty();
+                }
 
+                catch (Exception ex)
+                {
+                    return;
+                }
+            }
+            
             AllCompanies = new ObservableCollection<Company>();
             AllCompanies.AddRange(companies);
 
+        }
+
+        private async Task GenerateNewDataIfEmpty()
+        {
+            await _repository.WriteDummyData(_writer);
+            LoadDataAsync();
         }
     }
 }

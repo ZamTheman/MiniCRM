@@ -15,9 +15,9 @@ namespace Repositories
 
         Task Update(IWriter writer, Company company);
 
-        Task DeleteCompany(IWriter writer, Company company);
+        Task DeleteCompany(IWriter writer, ICompany company);
 
-        Task DeleteEntity(IWriter writer, IEntity entity, Company company);
+        Task DeleteEntity(IWriter writer, IEntity entity, ICompany company);
 
         Task WriteDummyData(IWriter writer);
     }

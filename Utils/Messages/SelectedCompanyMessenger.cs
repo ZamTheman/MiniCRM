@@ -4,6 +4,6 @@ namespace Utils.Messages
 {
     public class SelectedCompanyMessenger
     {
-        public Company SelectedCompany { get; set; }
+        public ICompany SelectedCompany { get; set; }
     }
 }

@@ -60,8 +60,8 @@ namespace ViewModels
             }
         }
 
-        private Company _selectedCompany;
-        public Company SelectedCompany
+        private ICompany _selectedCompany;
+        public ICompany SelectedCompany
         {
             get { return _selectedCompany;}
             set

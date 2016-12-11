@@ -27,12 +27,12 @@ namespace Repositories
             throw new System.NotImplementedException();
         }
 
-        public async Task DeleteCompany(IWriter writer, Company company)
+        public async Task DeleteCompany(IWriter writer, ICompany company)
         {
             await writer.DeleteSingleCompanyByIdAsync(company.Id);
         }
 
-        public async Task DeleteEntity(IWriter writer, IEntity entity, Company company)
+        public async Task DeleteEntity(IWriter writer, IEntity entity, ICompany company)
         {
             await writer.DeleteSingleEntityByIdAsync(company.Id, entity);
         }
