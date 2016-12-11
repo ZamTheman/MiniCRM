@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Messages\SelectedCompanyMessenger.cs" />
     <Compile Include="Messages\SelectedEntityMessenger.cs" />
+    <Compile Include="Models\ICompany.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
