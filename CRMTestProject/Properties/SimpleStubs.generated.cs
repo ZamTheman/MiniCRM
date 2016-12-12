@@ -452,6 +452,19 @@ namespace Utils
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
+
+        global::System.Threading.Tasks.Task global::Utils.IWriter.SaveCompany(global::ModelLayer.ICompany company)
+        {
+            return _stubs.GetMethodStub<SaveCompany_ICompany_Delegate>("SaveCompany").Invoke(company);
+        }
+
+        public delegate global::System.Threading.Tasks.Task SaveCompany_ICompany_Delegate(global::ModelLayer.ICompany company);
+
+        public StubIWriter SaveCompany(SaveCompany_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
     }
 }
 

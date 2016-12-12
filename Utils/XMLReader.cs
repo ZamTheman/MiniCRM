@@ -9,7 +9,7 @@ using ModelLayer;
 
 namespace Utils
 {
-    public class XMLReader : IReader
+    public class XMLReader : XMLFileIOBase, IReader
     {
         public async Task<Company> GetSingleById(int id)
         {
@@ -18,8 +18,6 @@ namespace Utils
 
         public async Task<IList<Company>> GetAll()
         {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.GetFileAsync("Data.xml");
             Stream stream = await file.OpenStreamForReadAsync();
             XDocument xDoc;
             

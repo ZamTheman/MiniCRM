@@ -11,9 +11,9 @@ namespace ModelLayer
         public string Street { get; set; }
         public string Phone { get; set; }
 
-        public IList<Employee> Employees { get; private set; }
-        public IList<HistoryPost> Histories { get; private set; }
-        public IList<Todo> Todos { get; private set; }
+        public IList<Employee> Employees { get; set; }
+        public IList<HistoryPost> Histories { get; set; }
+        public IList<Todo> Todos { get; set; }
 
         public Company()
         {

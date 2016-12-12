@@ -14,5 +14,7 @@ namespace Utils
         Task DeleteSingleEntityByIdAsync(int id, IEntity entity);
 
         Task UpdateSingleById(int id);
+
+        Task SaveCompany(ICompany company);
     }
 }

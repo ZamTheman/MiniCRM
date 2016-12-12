@@ -10,21 +10,30 @@ using ViewModels;
 namespace ViewModelsTestProject
 {
     [TestFixture]
-    public class CompanyListViewModelTests
+    public class CompanyListViewModelTests : TestBase<CompanyListViewModel>
     {
+        private Mock<IReader> mockReader;
+        private Mock<IWriter> mockWriter;
+        private Mock<IRepository> mockRepository;
 
-        MockRepository repository = new MockRepository(MockBehavior.Strict);
+        protected override void SetupConstructorRequiredMocks()
+        {
+            mockReader = CreateMock<IReader>();
+            mockWriter = CreateMock<IWriter>();
+            mockRepository = CreateMock<IRepository>();
+        }
+
+        protected override void SetupMocksAfterConstructions()
+        {   
+        }
 
         [Test]
         public void CreateViewModelTest()
         {
             // Arrange
-            var repo = repository.Create<IRepository>();
-            var writer = repository.Create<IWriter>();
-            var reader = repository.Create<IReader>();
 
             // Act
-            var vm = new CompanyListViewModel(repo.Object, reader.Object, writer.Object);
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
 
             // Assert
             Assert.NotNull(vm);
@@ -36,11 +45,8 @@ namespace ViewModelsTestProject
         public void DeleteCommandTestWithoutSelectedCompany()
         {
             // Arrange
-            var repo = repository.Create<IRepository>();
-            var writer = repository.Create<IWriter>();
-            var reader = repository.Create<IReader>();
             var company = new Company();
-            var vm = new CompanyListViewModel(repo.Object, reader.Object, writer.Object);
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
 
             // Act
 
@@ -52,11 +58,8 @@ namespace ViewModelsTestProject
         public void DeleteCommandTestWithSelectedCompany()
         {
             // Arrange
-            var repo = repository.Create<IRepository>();
-            var writer = repository.Create<IWriter>();
-            var reader = repository.Create<IReader>();
             var company = new Company();
-            var vm = new CompanyListViewModel(repo.Object, reader.Object, writer.Object);
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
 
             // Act
             vm.SelectedCompany = company;
@@ -69,17 +72,14 @@ namespace ViewModelsTestProject
         public void SendCompanyCommandTest()
         {
             // Arrange
-            var repo = repository.Create<IRepository>();
-            var writer = repository.Create<IWriter>();
-            var reader = repository.Create<IReader>();
             var company = new Company();
-            var vm = new CompanyListViewModel(repo.Object, reader.Object, writer.Object);
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
 
             // Act
 
             // Assert
             vm.SendCompanyCommand.Execute(company);
-            repository.VerifyAll();
+            mockRepository.VerifyAll();
         }
 
         [TestCase(3)]
@@ -99,17 +99,13 @@ namespace ViewModelsTestProject
             }
 
             // Arrange
-            var repo = repository.Create<IRepository>();
-            var writer = repository.Create<IWriter>();
-            var reader = repository.Create<IReader>();
-            
-            repo.Setup(r => r.GetAll(reader.Object)).ReturnsAsync(listOfCompanies);
-            var vm = new CompanyListViewModel(repo.Object, reader.Object, writer.Object);
+            mockRepository.Setup(r => r.GetAll(mockReader.Object)).ReturnsAsync(listOfCompanies);
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
             
             // Assert
             Assert.That(vm.AllCompanies, Is.Not.Null);
             Assert.That(vm.AllCompanies.Count, Is.EqualTo(nrCompanies));
-            repository.VerifyAll();
+            mockRepository.VerifyAll();
         }
     }
 }

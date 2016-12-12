@@ -9,7 +9,7 @@ using ModelLayer;
 
 namespace Utils
 {
-    public class XMLWriter : IWriter
+    public class XMLWriter : XMLFileIOBase, IWriter
     {
         public async Task WriteDummyData()
         {
@@ -166,8 +166,6 @@ namespace Utils
 
         public async Task DeleteSingleCompanyByIdAsync(int id)
         {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.GetFileAsync("Data.xml");
             Stream stream = await file.OpenStreamForWriteAsync();
             XDocument doc = XDocument.Load(stream);
             
@@ -181,8 +179,6 @@ namespace Utils
 
         public async Task DeleteSingleEntityByIdAsync(int id, IEntity entity)
         {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.GetFileAsync("Data.xml");
             Stream stream = await file.OpenStreamForWriteAsync();
             XDocument doc = XDocument.Load(stream);
             string[] typeName = entity.ToString().Split('.');
@@ -204,6 +200,33 @@ namespace Utils
         public Task UpdateSingleById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task SaveCompany(ICompany company)
+        {
+            var lowestAvailbeId = await getLowestAwailibleId();
+        }
+
+        private async Task<int> getLowestAwailibleId()
+        {
+            Stream stream = await file.OpenStreamForReadAsync();
+            XDocument doc = XDocument.Load(stream);
+
+            using (stream)
+            {
+                doc = XDocument.Load(stream);
+            }
+
+            var companies = doc.Descendants("Company");
+            int lowestId = 0;
+
+            foreach (var xElement in companies)
+            {
+                if (int.Parse(xElement.Element("Id").Value) > lowestId)
+                    lowestId = int.Parse(xElement.Element("Id").Value);
+            }
+
+            return lowestId;
         }
     }
 }

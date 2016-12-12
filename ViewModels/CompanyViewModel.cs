@@ -121,7 +121,6 @@ namespace ViewModels
         }
 
         private IRepository _repository;
-        private IReader _reader;
         private IWriter _writer;
 
         #endregion
@@ -139,7 +138,6 @@ namespace ViewModels
         {
             this._repository = repository;
             this._writer = writer;
-            this._reader = reader;
             SaveCustomerCommand = new RelayCommand(SaveCustomer, CanSaveCustomer);
             EmplyeeListActiveCommand = new RelayCommand(ToggleEmployeeListVisibility);
             TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
