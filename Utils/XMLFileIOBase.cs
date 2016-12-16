@@ -7,19 +7,15 @@ namespace Utils
     public abstract class XMLFileIOBase
     {
         protected StorageFolder folder;
-        protected StorageFile file;
-
-        Task Initialization { get; set; }
-
+        
         protected XMLFileIOBase()
         {
             folder = ApplicationData.Current.LocalFolder;
-            Initialization = SetFilePath();
         }
 
-        private async Task SetFilePath()
+        protected async Task<StorageFile> GetFilePath()
         {
-            file = await folder.GetFileAsync("Data.xml");
+            return await folder.GetFileAsync("Data.xml");
         }
     }
 }

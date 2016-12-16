@@ -17,9 +17,9 @@ namespace Repositories
             throw new System.NotImplementedException();
         }
 
-        public Task Save(IWriter writer)
+        public async Task<int> Save(IWriter writer, ICompany company)
         {
-            throw new System.NotImplementedException();
+            return await writer.SaveCompany(company);
         }
 
         public Task Update(IWriter writer, Company company)

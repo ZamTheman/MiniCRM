@@ -43,6 +43,7 @@
     <Compile Include="IListHelpers.cs" />
     <Compile Include="IReader.cs" />
     <Compile Include="IWriter.cs" />
+    <Compile Include="Messages\ListupdatedMessenger.cs" />
     <Compile Include="Messages\SelectedCompanyMessenger.cs" />
     <Compile Include="Messages\SelectedEntityMessenger.cs" />
     <Compile Include="MyDataTemplateSelector.cs" />

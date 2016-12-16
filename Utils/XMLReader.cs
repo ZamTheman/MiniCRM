@@ -18,6 +18,7 @@ namespace Utils
 
         public async Task<IList<Company>> GetAll()
         {
+            StorageFile file = await GetFilePath();
             Stream stream = await file.OpenStreamForReadAsync();
             XDocument xDoc;
             

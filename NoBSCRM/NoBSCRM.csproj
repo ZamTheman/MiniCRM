@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Resources\BoolToVisibilityConverter.cs" />
     <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="UnityServiceProvider.cs" />
     <Compile Include="ViewModelLocator.cs" />

@@ -279,14 +279,14 @@ namespace Repositories
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Repositories.IRepository.Save(global::Utils.IWriter writer)
+        global::System.Threading.Tasks.Task global::Repositories.IRepository.Save(global::Utils.IWriter writer, global::ModelLayer.ICompany company)
         {
-            return _stubs.GetMethodStub<Save_IWriter_Delegate>("Save").Invoke(writer);
+            return _stubs.GetMethodStub<Save_IWriter_ICompany_Delegate>("Save").Invoke(writer, company);
         }
 
-        public delegate global::System.Threading.Tasks.Task Save_IWriter_Delegate(global::Utils.IWriter writer);
+        public delegate global::System.Threading.Tasks.Task Save_IWriter_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.ICompany company);
 
-        public StubIRepository Save(Save_IWriter_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIRepository Save(Save_IWriter_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

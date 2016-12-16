@@ -47,9 +47,23 @@
                                 <TextBlock Text="Filter"/>
                                 <TextBox Text="{Binding FilterText}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Delete" Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}"/>
-                                <Button Content="Add"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Button Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}" Width="32" Height="32" Margin="15,0">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Delete Selected Company"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                                    </Button.Background>
+                                </Button>
+                                <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Add new Company"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                                    </Button.Background>
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                         <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
@@ -65,32 +79,51 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                                <TextBox x:Name="CustomerNameTextBox" Text="{Binding CompanyName}" Height="30" Width="250"/>
+                                <TextBox x:Name="CustomerNameTextBox" Text="{Binding CompanyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="City:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                                <TextBox x:Name="CustomerCityTextBox" Text="{Binding CompanyCity}" Height="30" Width="250"/>
+                                <TextBox x:Name="CustomerCityTextBox" Text="{Binding CompanyCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                                <TextBox x:Name="CustomerPhoneTextBox" Text="{Binding CompanyPhone}" Height="30" Width="250"/>
+                                <TextBox x:Name="CustomerPhoneTextBox" Text="{Binding CompanyPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Visiting Adress:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                                <TextBox x:Name="CustomerStreetTextBox" Text="{Binding CompanyStreet}" Height="30" Width="250"/>
+                                <TextBox x:Name="CustomerStreetTextBox" Text="{Binding CompanyStreet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Button Command="{Binding SaveCompanyCommand}" Width="32" Height="32" Margin="15,0">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Save Changes to Company"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                    </Button.Background>
+                                </Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="10">
                                 <ToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0" Command="{Binding EmplyeeListActiveCommand}" IsChecked="{Binding ViewEmployees, Mode=TwoWay}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Toogle Employees Visibility"/>
+                                    </ToolTipService.ToolTip>
                                     <ToggleButton.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Employee.png"/>
+                                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Employee.png"/>
                                     </ToggleButton.Background>
                                 </ToggleButton>
                                 <ToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding TodoListActiveCommand}" IsChecked="{Binding ViewTodos, Mode=TwoWay}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Toogle Todos Visibility"/>
+                                    </ToolTipService.ToolTip>
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Todo.png"/>
                                     </ToggleButton.Background>
                                 </ToggleButton>
                                 <ToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding HistoryListActiveCommand}" IsChecked="{Binding ViewHistories, Mode=TwoWay}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Toogle History Posts Visibility"/>
+                                    </ToolTipService.ToolTip>
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/History.png"/>
                                     </ToggleButton.Background>
@@ -178,6 +211,7 @@
 
     <!-- Converters -->
     <resources:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter"/>
+    <resources:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <!-- end Converters -->
 </ResourceDictionary>
 

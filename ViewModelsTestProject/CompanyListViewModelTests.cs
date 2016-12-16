@@ -42,7 +42,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void DeleteCommandTestWithoutSelectedCompany()
+        public void DeleteCommandTestWithoutSelectedCompanyCanExecute_Always_False()
         {
             // Arrange
             var company = new Company();
@@ -55,7 +55,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void DeleteCommandTestWithSelectedCompany()
+        public void DeleteCommandTestWithSelectedCompanyCanExecute_Always_True()
         {
             // Arrange
             var company = new Company();
@@ -69,6 +69,19 @@ namespace ViewModelsTestProject
         }
 
         [Test]
+        public void AddCommandTest_Always_SetsSelectedCompanyToNull()
+        {
+            // Arrange
+            var vm = new CompanyListViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+
+            // Act
+            vm.AddCommand.Execute(null);
+
+            // Assert
+            Assert.That(vm.SelectedCompany, Is.Null);
+        }
+
+        [Test]
         public void SendCompanyCommandTest()
         {
             // Arrange
@@ -79,12 +92,11 @@ namespace ViewModelsTestProject
 
             // Assert
             vm.SendCompanyCommand.Execute(company);
-            mockRepository.VerifyAll();
         }
 
         [TestCase(3)]
         [TestCase(5)]
-        public async Task AllCompanies_AfterConstruction_IsNotNull(int nrCompanies)
+        public void AllCompanies_AfterConstruction_IsNotNull(int nrCompanies)
         {
             var listOfCompanies = new List<Company>();
             for (int i = 0; i < nrCompanies; i++)

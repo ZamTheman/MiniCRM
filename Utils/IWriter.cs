@@ -15,6 +15,6 @@ namespace Utils
 
         Task UpdateSingleById(int id);
 
-        Task SaveCompany(ICompany company);
+        Task<int> SaveCompany(ICompany company);
     }
 }

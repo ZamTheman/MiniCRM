@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using NUnit.Framework;
 using ModelLayer;
 using Moq;
 using Repositories;
@@ -41,7 +43,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void DeleteCommandTestWithoutSelectedCompany()
+        public void DeleteCommandCanExecuteWithoutSelectedCompany_Always_False()
         {
             // Arrange
             var company = new Company();
@@ -63,6 +65,98 @@ namespace ViewModelsTestProject
 
             // Assert
             Assert.That(vm.DeleteCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void SaveCommandCanExectuteWhenSelectedCompanyIsNullAndAllFieldsAreEmpty_Always_Fasle()
+        {
+            // Arrange
+            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+
+            // Act
+            vm.SelectedCompany = null;
+
+            // Assert
+            Assert.That(vm.SaveCompanyCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void SaveCommandCanExectuteWhenSelectedCompanyIsNotNullButFieldsAreIdenticalToSelectedCompany_Always_Fasle()
+        {
+            // Arrange
+            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+
+            // Act
+            vm.SelectedCompany = new Company() {Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet"};
+            vm.CompanyName = vm.SelectedCompany.Name;
+            vm.CompanyCity = vm.SelectedCompany.City;
+            vm.CompanyPhone = vm.SelectedCompany.Phone;
+            vm.CompanyStreet = vm.SelectedCompany.Street;
+
+            // Assert
+            Assert.That(vm.SaveCompanyCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void SaveCommandCanExectuteWhenSelectedCompanyIsNotNullButFieldsDifferentToSelectedCompany_Always_True()
+        {
+            // Arrange
+            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+
+            // Act
+            vm.SelectedCompany = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
+            vm.CompanyName = vm.SelectedCompany.Name;
+            vm.CompanyCity = "Different then mockCity";
+            vm.CompanyPhone = vm.SelectedCompany.Phone;
+            vm.CompanyStreet = vm.SelectedCompany.Street;
+
+            // Assert
+            Assert.That(vm.SaveCompanyCommand.CanExecute(null), Is.True);
+        }
+
+        // 
+        // Tested with a Selected Company
+        //
+        [Test]
+        public void SaveCommandShouldCallMockRepositorySave_Always_Verified()
+        {
+            // Arrange
+            var company = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
+            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            mockRepository.Setup(m => m.Save(mockWriter.Object, It.IsAny<Company>())).Returns(Task.FromResult<int>(3));
+
+            vm.SelectedCompany = company;
+            vm.CompanyName = vm.SelectedCompany.Name;
+            vm.CompanyCity = vm.SelectedCompany.Name;
+            vm.CompanyPhone = vm.SelectedCompany.Phone;
+            vm.CompanyStreet = vm.SelectedCompany.Street;
+
+            // Act
+            vm.SaveCompanyCommand.Execute(company);
+
+            // Assert
+            mockRepository.VerifyAll();
+        }
+
+        // 
+        // Tested with Selected Company null
+        //
+        [Test]
+        public void SaveCommandShouldCallMockRepositorySaveWithNullSelectedCompany_Always_Verified()
+        {
+            // Arrange
+            var company = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
+            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            mockRepository.Setup(m => m.Save(mockWriter.Object, It.IsAny<Company>())).Returns(Task.FromResult<int>(3));
+
+            vm.SelectedCompany = null;
+            vm.CompanyName = "MockName";
+
+            // Act
+            vm.SaveCompanyCommand.Execute(company);
+
+            // Assert
+            mockRepository.VerifyAll();
         }
 
         [Test]
@@ -91,7 +185,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void EmployeeListActiveCommandTooggleCanExcute_Always_Ture()
+        public void EmployeeListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
             var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
@@ -103,7 +197,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void TodoListActiveCommandTooggleCanExcute_Always_Ture()
+        public void TodoListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
             var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
@@ -115,7 +209,7 @@ namespace ViewModelsTestProject
         }
 
         [Test]
-        public void HistoryListActiveCommandTooggleCanExcute_Always_Ture()
+        public void HistoryListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
             var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);

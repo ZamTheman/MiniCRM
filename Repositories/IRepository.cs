@@ -11,7 +11,7 @@ namespace Repositories
 
         Task<Company> GetCompany(IReader reader);
 
-        Task Save(IWriter writer);
+        Task<int> Save(IWriter writer, ICompany company);
 
         Task Update(IWriter writer, Company company);
 

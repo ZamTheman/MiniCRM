@@ -166,6 +166,7 @@ namespace Utils
 
         public async Task DeleteSingleCompanyByIdAsync(int id)
         {
+            StorageFile file = await GetFilePath();
             Stream stream = await file.OpenStreamForWriteAsync();
             XDocument doc = XDocument.Load(stream);
             
@@ -179,6 +180,7 @@ namespace Utils
 
         public async Task DeleteSingleEntityByIdAsync(int id, IEntity entity)
         {
+            StorageFile file = await GetFilePath();
             Stream stream = await file.OpenStreamForWriteAsync();
             XDocument doc = XDocument.Load(stream);
             string[] typeName = entity.ToString().Split('.');
@@ -202,15 +204,80 @@ namespace Utils
             throw new NotImplementedException();
         }
 
-        public async Task SaveCompany(ICompany company)
+        public async Task<int> SaveCompany(ICompany company)
         {
-            var lowestAvailbeId = await getLowestAwailibleId();
+            var lowestAvailbeId = 0;
+            var idToUse = company.Id;
+            if (company.Id == 0)
+            {
+                lowestAvailbeId = await GetLowestAwailibleId();
+                idToUse = lowestAvailbeId;
+            }
+
+            StorageFile file = await GetFilePath();
+            Stream stream = await file.OpenStreamForWriteAsync();
+            XDocument doc = XDocument.Load(stream);
+
+            XElement companyElement = new XElement("Company",
+                new XElement("Id", idToUse),
+                new XElement("Name", company.Name),
+                new XElement("Phone", company.Phone),
+                new XElement("City", company.City),
+                new XElement("Street", company.Street));
+
+            if (company.Todos != null)
+            {
+                companyElement.Add(new XElement("Todos", company.Todos.Select(todo =>
+                               new XElement("Todo",
+                                   new XElement("Id", todo.Id),
+                                   new XElement("Date", todo.Date),
+                                   new XElement("Description", todo.Description)))));
+            }
+
+            if (company.Histories != null)
+            {
+                companyElement.Add(new XElement("Histories", company.Histories.Select(history =>
+                                new XElement("HistoryPost",
+                                    new XElement("Id", history.Id),
+                                    new XElement("Date", history.Date),
+                                    new XElement("Post", history.Post)))));
+            }
+
+            if (company.Employees != null)
+            {
+                companyElement.Add(new XElement("Employees", company.Employees.Select(employee =>
+                            new XElement("Employee",
+                                new XElement("Id", employee.Id),
+                                new XElement("Name", employee.Name),
+                                new XElement("Phone", employee.Phone),
+                                new XElement("Mobile", employee.Mobil),
+                                new XElement("Email", employee.EMail),
+                                new XElement("Position", employee.Position)))));
+            }
+            
+            using (stream)
+            {
+                if (company.Id == 0)
+                {
+                    doc.Root.Add(companyElement);
+                    stream.SetLength(0);
+                    doc.Save(stream);
+                }
+                else
+                {
+                    doc.Descendants("Companies").Elements("Company").FirstOrDefault(x => x.Elements("Id").Any(e => e.Value == company.Id.ToString())).ReplaceWith(companyElement);
+                    stream.SetLength(0);
+                    doc.Save(stream);
+                }
+            }
+            return lowestAvailbeId;
         }
 
-        private async Task<int> getLowestAwailibleId()
+        private async Task<int> GetLowestAwailibleId()
         {
+            StorageFile file = await GetFilePath();
             Stream stream = await file.OpenStreamForReadAsync();
-            XDocument doc = XDocument.Load(stream);
+            XDocument doc;
 
             using (stream)
             {
@@ -218,15 +285,17 @@ namespace Utils
             }
 
             var companies = doc.Descendants("Company");
-            int lowestId = 0;
+            int lowestIdAwailible = 0;
 
             foreach (var xElement in companies)
             {
-                if (int.Parse(xElement.Element("Id").Value) > lowestId)
-                    lowestId = int.Parse(xElement.Element("Id").Value);
+                if (int.Parse(xElement.Element("Id").Value) > lowestIdAwailible)
+                    lowestIdAwailible = int.Parse(xElement.Element("Id").Value);
             }
 
-            return lowestId;
+            return lowestIdAwailible + 1;
         }
+
+
     }
 }

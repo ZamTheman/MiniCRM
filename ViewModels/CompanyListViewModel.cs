@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -15,10 +16,19 @@ namespace ViewModels
 {
     public class CompanyListViewModel : ViewModelBase, ICompanyListViewModel
     {
-        public ObservableCollection<Company> AllCompanies { get; set; }
-
+        private ObservableCollection<Company> _allCompanies;
+        public ObservableCollection<Company> AllCompanies
+        {
+            get { return _allCompanies; }
+            set
+            {
+                _allCompanies = value;
+                RaisePropertyChanged("AllCompanies");
+            }
+        }
         public RelayCommand<Company> SendCompanyCommand { get; }
         public RelayCommand DeleteCommand { get; }
+        public RelayCommand AddCommand { get; }
 
         public Task Initialization { get; private set; }
 
@@ -48,7 +58,12 @@ namespace ViewModels
             _repository = repository;
             SendCompanyCommand = new RelayCommand<Company>(SendSelectedCompany);
             DeleteCommand = new RelayCommand (DeleteSelectedCompany, () => _selectedCompany != null);
+            AddCommand = new RelayCommand(() => SelectedCompany = null);
             Initialization = LoadDataAsync();
+            Messenger.Default.Register<ListupdatedMessenger>(this , (action) =>
+            {
+                Initialization = LoadDataAsync();
+            });
         }
         
         private void DeleteSelectedCompany()
@@ -93,13 +108,12 @@ namespace ViewModels
             
             AllCompanies = new ObservableCollection<Company>();
             AllCompanies.AddRange(companies);
-
         }
-
+        
         private async Task GenerateNewDataIfEmpty()
         {
             await _repository.WriteDummyData(_writer);
-            LoadDataAsync();
+            await LoadDataAsync();
         }
     }
 }

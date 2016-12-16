@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,6 +62,16 @@ namespace ViewModels
             }
         }
 
+        private bool _canSaveCompanyBool;
+        public bool CanSaveCompanyBool
+        {
+            get { return _canSaveCompanyBool; }
+            set
+            {
+                Set(() => CanSaveCompanyBool, ref _canSaveCompanyBool, value);
+            }
+        }
+
         private ICompany _selectedCompany;
         public ICompany SelectedCompany
         {
@@ -75,28 +87,44 @@ namespace ViewModels
         public string CompanyName
         {
             get { return _companyName;}
-            set { Set(() => CompanyName, ref _companyName, value); }
+            set
+            {
+                Set(() => CompanyName, ref _companyName, value);
+                SaveCompanyCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private string _companyPhone;
         public string CompanyPhone
         {
             get { return _companyPhone; }
-            set { Set(() => CompanyPhone, ref _companyPhone, value); }
+            set
+            {
+                Set(() => CompanyPhone, ref _companyPhone, value);
+                SaveCompanyCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private string _companyCity;
         public string CompanyCity
         {
             get { return _companyCity; }
-            set { Set(() => CompanyCity, ref _companyCity, value); }
+            set
+            {
+                Set(() => CompanyCity, ref _companyCity, value);
+                SaveCompanyCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private string _companyStreet;
         public string CompanyStreet
         {
             get { return _companyStreet; }
-            set { Set(() => CompanyStreet, ref _companyStreet, value); }
+            set
+            {
+                Set(() => CompanyStreet, ref _companyStreet, value);
+                SaveCompanyCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<Todo> _companyTodos;
@@ -119,6 +147,15 @@ namespace ViewModels
             get { return _companyEmployees; }
             set { Set(() => CompanyEmployees, ref _companyEmployees, value); }
         }
+        //
+        // Controls the visibility of the save button
+        //
+        private bool _saveButtonVisibility;
+        public bool SaveButtonVisible
+        {
+            get { return _saveButtonVisibility; }
+            set { Set(() => SaveButtonVisible, ref _saveButtonVisibility, value); }
+        }
 
         private IRepository _repository;
         private IWriter _writer;
@@ -126,29 +163,34 @@ namespace ViewModels
         #endregion
 
         // Commands
-        public RelayCommand SaveCustomerCommand { get; private set; }
+        public RelayCommand SaveCompanyCommand { get; private set; }
         public RelayCommand EmplyeeListActiveCommand { get; private set; }
         public RelayCommand TodoListActiveCommand { get; private set; }
         public RelayCommand HistoryListActiveCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand<IEntity> EntitySelectedCommand { get; private set; }
-
+        
         // Constructor
         public CompanyViewModel(IRepository repository, IReader reader, IWriter writer)
         {
             this._repository = repository;
             this._writer = writer;
-            SaveCustomerCommand = new RelayCommand(SaveCustomer, CanSaveCustomer);
-            EmplyeeListActiveCommand = new RelayCommand(ToggleEmployeeListVisibility);
-            TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
-            HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
-            EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
-            DeleteCommand = new RelayCommand(DeleteSelectedEntity, () => _selectedEntity != null);
+            LoadCommands();
             Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
                 this.SelectedCompany = company.SelectedCompany;
                 UpdateAllFields();
             });
+        }
+
+        private void LoadCommands()
+        {
+            SaveCompanyCommand = new RelayCommand(SaveCompany, CanSaveCompany);
+            EmplyeeListActiveCommand = new RelayCommand(ToggleEmployeeListVisibility);
+            TodoListActiveCommand = new RelayCommand(ToggleTodoListVisibility);
+            HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
+            EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
+            DeleteCommand = new RelayCommand(DeleteSelectedEntity, () => _selectedEntity != null);
         }
         
         public CompanyViewModel()
@@ -158,7 +200,12 @@ namespace ViewModels
 
         private void EntitySelected(IEntity entity)
         {
-            Messenger.Default.Send<SelectedEntityMessenger>(new SelectedEntityMessenger() { SelectedEntityMessageEntity = entity });
+            Messenger.Default.Send(new SelectedEntityMessenger() { SelectedEntityMessageEntity = entity });
+        }
+
+        private void ListWasUpdated()
+        {
+            Messenger.Default.Send(new ListupdatedMessenger());
         }
 
         private async Task DeleteEntityFromFile()
@@ -204,14 +251,27 @@ namespace ViewModels
             EntitySelected(null);
         }
 
-        private bool CanSaveCustomer()
+        private bool CanSaveCompany()
         {
-            if (CompanyName != SelectedCompany.Name || CompanyCity != SelectedCompany.Phone ||
-                CompanyCity != SelectedCompany.City || CompanyStreet != SelectedCompany.Street ||
-                !CompanyTodos.Equals(SelectedCompany.Todos) || !CompanyHistories.Equals(SelectedCompany.Histories) ||
-                !CompanyEmployees.Equals(SelectedCompany.Employees))
-                return true;
+            if (SelectedCompany == null)
+            {
+                if (!string.IsNullOrEmpty(CompanyName) || !string.IsNullOrEmpty(CompanyCity) ||
+                    !string.IsNullOrEmpty(CompanyCity) || !string.IsNullOrEmpty(CompanyStreet))
+                {
+                    SaveButtonVisible = true;
+                    return true;
+                }
+                SaveButtonVisible = false;
+                return false;
+            }
 
+            if (CompanyName != SelectedCompany.Name || CompanyPhone != SelectedCompany.Phone ||
+                CompanyCity != SelectedCompany.City || CompanyStreet != SelectedCompany.Street)
+            {
+                SaveButtonVisible = true;
+                return true;
+            }
+            SaveButtonVisible = false;
             return false;
         }
 
@@ -236,9 +296,53 @@ namespace ViewModels
             SelectedEntity = null;
         }
 
-        private void SaveCustomer()
+        private async void SaveCompany()
         {
-            throw new NotImplementedException();
+            if (SelectedCompany != null)
+            {
+                SelectedCompany.Name = CompanyName;
+                SelectedCompany.City = CompanyCity;
+                SelectedCompany.Phone = CompanyPhone;
+                SelectedCompany.Street = CompanyStreet;
+                SelectedCompany.Employees.Clear();
+                SelectedCompany.Employees.AddRange(CompanyEmployees);
+                SelectedCompany.Todos.Clear();
+                SelectedCompany.Todos.AddRange(CompanyTodos);
+                SelectedCompany.Histories.Clear();
+                SelectedCompany.Histories.AddRange(CompanyHistories);
+                await _repository.Save(_writer, SelectedCompany);
+            }
+
+            else
+            {
+                int tempId = await _repository.Save(_writer, new Company()
+                {
+                    Name = CompanyName,
+                    City = CompanyCity,
+                    Phone = CompanyPhone,
+                    Street = CompanyStreet,
+                    Employees = CompanyEmployees,
+                    Todos = CompanyTodos,
+                    Histories = CompanyHistories
+                });
+
+                SelectedCompany = new Company
+                {
+                    Id = tempId,
+                    Name = CompanyName,
+                    City = CompanyCity,
+                    Phone = CompanyPhone,
+                    Street = CompanyStreet
+                };
+                SelectedCompany.Employees.Clear();
+                SelectedCompany.Employees.AddRange(CompanyEmployees);
+                SelectedCompany.Todos.Clear();
+                SelectedCompany.Todos.AddRange(CompanyTodos);
+                SelectedCompany.Histories.Clear();
+                SelectedCompany.Histories.AddRange(CompanyHistories);
+            }
+
+            ListWasUpdated();
         }
 
         private void UpdateAllFields()
