@@ -23,7 +23,7 @@ namespace ViewModels
             set
             {
                 _allCompanies = value;
-                RaisePropertyChanged("AllCompanies");
+                RaisePropertyChanged();
             }
         }
         public RelayCommand<Company> SendCompanyCommand { get; }
@@ -97,7 +97,7 @@ namespace ViewModels
             {
                 try
                 {
-                    await GenerateNewDataIfEmpty();
+                    //await GenerateNewDataIfEmpty();
                 }
 
                 catch (Exception ex)

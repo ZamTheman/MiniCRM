@@ -63,8 +63,8 @@ namespace Utils
                         Id = int.Parse(employee.Element("Id").Value),
                         Name = employee.Element("Name").Value,
                         Phone = employee.Element("Phone").Value,
-                        Mobil = employee.Element("Mobile").Value,
-                        EMail = employee.Element("Email").Value,
+                        Mobile = employee.Element("Mobile").Value,
+                        Email = employee.Element("Email").Value,
                         Position = employee.Element("Position").Value
                     });
                 }

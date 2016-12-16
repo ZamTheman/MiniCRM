@@ -13,6 +13,8 @@ namespace Repositories
 
         Task<int> Save(IWriter writer, ICompany company);
 
+        Task<int> SaveEntity(IWriter writer, IEntity entity, int companyId);
+
         Task Update(IWriter writer, Company company);
 
         Task DeleteCompany(IWriter writer, ICompany company);

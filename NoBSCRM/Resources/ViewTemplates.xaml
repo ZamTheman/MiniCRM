@@ -129,9 +129,23 @@
                                     </ToggleButton.Background>
                                 </ToggleButton>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Delete" Command="{Binding DeleteCommand}"/>
-                                <Button Content="Add"/>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding AddDeleteButtonsVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,10">
+                                <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Delete Selected Entity"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                                    </Button.Background>
+                                </Button>
+                                <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Add a new Entity"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Background>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                                    </Button.Background>
+                                </Button>
                             </StackPanel>
                             <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}" Visibility="{Binding ViewEmployees}"/>
                             <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}" Visibility="{Binding ViewTodos}"/>
@@ -147,23 +161,51 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeeNameTextBox" Text="{Binding Name}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeeNameTextBox" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeePhoneTextBox" Text="{Binding Phone}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeePhoneTextBox" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Mobile:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeeMobileTextBox" Text="{Binding Mobile}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeeMobileTextBox" Text="{Binding Mobile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
-                            <TextBlock Text="EMail:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeeEMailTextBox" Text="{Binding EMail}" Height="30" Width="250"/>
+                            <TextBlock Text="Email:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                            <TextBox x:Name="EmployeeEMailTextBox" Text="{Binding EMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Position:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Save Changes to Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Delete Selected Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                                </Button.Background>
+                            </Button>
+                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Add a new Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                                </Button.Background>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

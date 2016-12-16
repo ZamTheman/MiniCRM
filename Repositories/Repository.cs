@@ -22,6 +22,11 @@ namespace Repositories
             return await writer.SaveCompany(company);
         }
 
+        public async Task<int> SaveEntity(IWriter writer, IEntity entity, int companyId)
+        {
+            return await writer.SaveEntity(entity, companyId);
+        }
+
         public Task Update(IWriter writer, Company company)
         {
             throw new System.NotImplementedException();

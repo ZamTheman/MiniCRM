@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Networking.ServiceDiscovery.Dnssd;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -32,6 +33,20 @@ namespace ViewModels
             }
         }
 
+        private bool _addDeleteButtonsVisible;
+        public bool AddDeleteButtonsVisible
+        {
+            get { return _addDeleteButtonsVisible;}
+            set
+            {
+                if (!ViewEmployees && !ViewHistories && !ViewTodos)
+                    Set(() => AddDeleteButtonsVisible, ref _addDeleteButtonsVisible, false);
+
+                else
+                Set(() => AddDeleteButtonsVisible, ref _addDeleteButtonsVisible, true);
+            }
+        }
+
         private bool _viewEmployees;
         public bool ViewEmployees
         {
@@ -39,6 +54,7 @@ namespace ViewModels
             set
             {
                 Set(() => ViewEmployees, ref _viewEmployees, value);
+                AddDeleteButtonsVisible = true;
             }
         }
 
@@ -49,6 +65,7 @@ namespace ViewModels
             set
             {
                 Set(() => ViewTodos, ref _viewTodos, value);
+                AddDeleteButtonsVisible = true;
             }
         }
 
@@ -59,6 +76,7 @@ namespace ViewModels
             set
             {
                 Set(() => ViewHistories, ref _viewHistories, value);
+                AddDeleteButtonsVisible = true;
             }
         }
 
@@ -168,6 +186,7 @@ namespace ViewModels
         public RelayCommand TodoListActiveCommand { get; private set; }
         public RelayCommand HistoryListActiveCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand AddCommand { get; private set; }
         public RelayCommand<IEntity> EntitySelectedCommand { get; private set; }
         
         // Constructor
@@ -176,10 +195,21 @@ namespace ViewModels
             this._repository = repository;
             this._writer = writer;
             LoadCommands();
+            Registrations();
+        }
+
+        private void Registrations()
+        {
             Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
                 this.SelectedCompany = company.SelectedCompany;
                 UpdateAllFields();
+            });
+
+            Messenger.Default.Register<EntityAddedMessenger>(this, (entity) =>
+            {
+                this.SelectedEntity = entity.Entity;
+                ListWasUpdated();
             });
         }
 
@@ -191,8 +221,22 @@ namespace ViewModels
             HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
             EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
             DeleteCommand = new RelayCommand(DeleteSelectedEntity, () => _selectedEntity != null);
+            AddCommand = new RelayCommand(AddNewEntity);
         }
-        
+
+        private void AddNewEntity()
+        {
+            IEntity emtpyEntity = null;
+            if (ViewTodos)
+                emtpyEntity = new Todo();
+            if (ViewEmployees)
+                emtpyEntity = new Employee();
+            if (ViewHistories)
+                emtpyEntity = new HistoryPost();
+
+            Messenger.Default.Send(new SelectedEntityMessenger() { SelectedEntityMessageEntity = emtpyEntity });
+        }
+
         public CompanyViewModel()
         {
             

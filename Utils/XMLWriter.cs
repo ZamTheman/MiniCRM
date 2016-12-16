@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
@@ -28,8 +29,8 @@ namespace Utils
                 Id = 1,
                 Name = "Test Person 1",
                 Phone = "555-158 28 29",
-                Mobil = "555-258 28 29",
-                EMail = "testperson1@fakemail.com",
+                Mobile = "555-258 28 29",
+                Email = "testperson1@fakemail.com",
                 Position = "Test Position1"
             });
             company.Employees.Add(new Employee()
@@ -37,8 +38,8 @@ namespace Utils
                 Id = 2,
                 Name = "Test Person 2",
                 Phone = "555-158 28 30",
-                Mobil = "555-258 28 30",
-                EMail = "testperson2@fakemail.com",
+                Mobile = "555-258 28 30",
+                Email = "testperson2@fakemail.com",
                 Position = "Test Position2"
             });
             company.Histories.Add(new HistoryPost()
@@ -81,8 +82,8 @@ namespace Utils
                 Id = 1,
                 Name = "Test Person 3",
                 Phone = "555-158 28 32",
-                Mobil = "555-258 28 32",
-                EMail = "testperson3@fakemail.com",
+                Mobile = "555-258 28 32",
+                Email = "testperson3@fakemail.com",
                 Position = "Test Position3"
             });
             company.Employees.Add(new Employee()
@@ -90,8 +91,8 @@ namespace Utils
                 Id = 2,
                 Name = "Test Person 4",
                 Phone = "555-158 28 33",
-                Mobil = "555-258 28 33",
-                EMail = "testperson4@fakemail.com",
+                Mobile = "555-258 28 33",
+                Email = "testperson4@fakemail.com",
                 Position = "Test Position4"
             });
             company.Histories.Add(new HistoryPost()
@@ -147,8 +148,8 @@ namespace Utils
                                     new XElement("Id", employee.Id),
                                     new XElement("Name", employee.Name),
                                     new XElement("Phone", employee.Phone),
-                                    new XElement("Mobile", employee.Mobil),
-                                    new XElement("Email", employee.EMail),
+                                    new XElement("Mobile", employee.Mobile),
+                                    new XElement("Email", employee.Email),
                                     new XElement("Position", employee.Position))))))));
 
             StorageFile file = await folder.CreateFileAsync("Data.xml", CreationCollisionOption.ReplaceExisting);
@@ -159,9 +160,62 @@ namespace Utils
             }
         }
 
-        public Task SaveSingle()
+        public async Task<int> SaveEntity(IEntity entity, int companyId)
         {
-            throw new NotImplementedException();
+            int idToUse;
+
+            if (entity.Id == 0)
+                idToUse = await GetLowestAwailibleEntityId(entity, companyId);
+            else
+                idToUse = entity.Id;
+
+            StorageFile file = await GetFilePath();
+            Stream stream = await file.OpenStreamForWriteAsync();
+            XDocument doc = XDocument.Load(stream);
+            XElement element;
+            var type = entity.GetType().ToString().Split('.');
+            var comp = doc.Descendants().Elements("Company").FirstOrDefault(c => c.Element("Id").Value == companyId.ToString());
+
+            element = new XElement(new XElement(type[type.Length - 1]));
+            var elements = entity.GetType().GetProperties();
+            element.Add(new XElement("Id", idToUse));
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (elements[i].Name == "Id")
+                    continue;
+                element.Add(new XElement(elements[i].Name, elements[i].GetValue(entity, null)));
+            }
+
+            string listType ="";
+            switch (type[type.Length-1])
+            {
+                case "Employee":
+                    listType = "Employees";
+                    break;
+                case "HistoryPost":
+                    listType = "Histories";
+                    break;
+                case "Todo":
+                    listType = "Todos";
+                    break;
+            }
+
+            using (stream)
+            {
+                if (entity.Id == 0)
+                {
+                    comp.Elements(listType).FirstOrDefault().Add(element);
+                }
+                else
+                {
+                    comp.Descendants().Elements(type[type.Length - 1]).FirstOrDefault(x => x.Elements("Id").Any(e => e.Value == entity.Id.ToString())).ReplaceWith(element);
+                }
+                stream.SetLength(0);
+                doc.Save(stream);
+            }
+
+            
+            return idToUse;
         }
 
         public async Task DeleteSingleCompanyByIdAsync(int id)
@@ -233,7 +287,9 @@ namespace Utils
                                    new XElement("Date", todo.Date),
                                    new XElement("Description", todo.Description)))));
             }
-
+            else
+                companyElement.Add(new XElement("Todos"));
+            
             if (company.Histories != null)
             {
                 companyElement.Add(new XElement("Histories", company.Histories.Select(history =>
@@ -242,6 +298,8 @@ namespace Utils
                                     new XElement("Date", history.Date),
                                     new XElement("Post", history.Post)))));
             }
+            else
+                companyElement.Add(new XElement("Histories"));
 
             if (company.Employees != null)
             {
@@ -250,11 +308,13 @@ namespace Utils
                                 new XElement("Id", employee.Id),
                                 new XElement("Name", employee.Name),
                                 new XElement("Phone", employee.Phone),
-                                new XElement("Mobile", employee.Mobil),
-                                new XElement("Email", employee.EMail),
+                                new XElement("Mobile", employee.Mobile),
+                                new XElement("Email", employee.Email),
                                 new XElement("Position", employee.Position)))));
             }
-            
+            else
+                companyElement.Add(new XElement("Employees"));
+
             using (stream)
             {
                 if (company.Id == 0)
@@ -296,6 +356,49 @@ namespace Utils
             return lowestIdAwailible + 1;
         }
 
+        private async Task<int> GetLowestAwailibleEntityId(IEntity entity, int companyId)
+        {
+            StorageFile file = await GetFilePath();
+            Stream stream = await file.OpenStreamForReadAsync();
+            XDocument doc;
+            var type = entity.GetType().ToString().Split('.');
+
+            using (stream)
+            {
+                doc = XDocument.Load(stream);
+            }
+
+            var comp = doc.Descendants("Companies")
+                        .Elements("Company")
+                        .FirstOrDefault(x => x.Elements("Id").Any(e => e.Value == companyId.ToString()));
+
+            var elements = comp.Descendants().Elements(type[type.Length - 1]).Elements("Id");
+
+            int lowestIdAwailible = 0;
+            foreach (var element in elements)
+            {
+                if (Int32.Parse(element.Value) > lowestIdAwailible)
+                    lowestIdAwailible = Int32.Parse(element.Value);
+            }
+            
+
+            //var postToControl = company.Descendants()
+
+            //foreach (var xElement in company)
+            //{
+            //    if (int.Parse(xElement.Element("Id").Value) == companyId)
+            //    {
+            //        var listOfPosts = xElement.Descendants();
+            //        foreach (var element in listOfPosts)
+            //        {
+            //            if(element.)
+            //        }
+            //    }
+            //        lowestIdAwailible = int.Parse(xElement.Element("Id").Value);
+            //}
+
+            return lowestIdAwailible + 1;
+        }
 
     }
 }

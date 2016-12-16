@@ -1,11 +1,27 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.Unity;
 using ModelLayer;
+using Repositories;
+using Utils;
+using Utils.Messages;
 
 namespace ViewModels
 {
     public class EmployeeViewModel : ViewModelBase, IEntityViewModel
     {
+        private bool _saveButtonVisible;
+        public bool SaveButtonVisible
+        {
+            get { return _saveButtonVisible; }
+            set
+            {
+                Set(() => SaveButtonVisible, ref _saveButtonVisible, value);
+                
+            }
+        }
+
         private string _name;
         public string Name
         {
@@ -15,6 +31,7 @@ namespace ViewModels
                 if (value == _name)
                     return;
                 Set(() => Name, ref _name, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -27,6 +44,7 @@ namespace ViewModels
                 if (value == _phone)
                     return;
                 Set(() => Phone, ref _phone, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -39,6 +57,7 @@ namespace ViewModels
                 if (value == _mobile)
                     return;
                 Set(() => Mobile, ref _mobile, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -51,6 +70,7 @@ namespace ViewModels
                 if (value == _eMail)
                     return;
                 Set(() => EMail, ref _eMail, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -63,35 +83,108 @@ namespace ViewModels
                 if (value == _position)
                     return;
                 Set(() => Position, ref _position, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
         private Employee _activEmployee;
-        public IEntity ActiveEntity
+        public Employee ActiveEmployee
         {
-            get {return _activEmployee;}
+            get { return _activEmployee; }
             set
             {
                 if (value == _activEmployee)
                     return;
-                Set(() => ActiveEntity as Employee, ref _activEmployee, value as Employee);
+                Set(() => ActiveEmployee, ref _activEmployee, value);
                 UpdateAllFields();
             }
         }
+        
+        public IEntity ActiveEntity { get; set; }
+        public IWriter Writer { get; set; }
+        public IRepository Repository { get; set; }
+        public int CompanyId { get; set; }
+        public RelayCommand SaveEntityCommand { get; set; }
 
         private void UpdateAllFields()
         {
-            Name = _activEmployee.Name;
-            Phone = _activEmployee.Phone;
-            Mobile = _activEmployee.Mobil;
-            EMail = _activEmployee.EMail;
-            Position = _activEmployee.Position;
+            Name = ActiveEmployee.Name;
+            Phone = ActiveEmployee.Phone;
+            Mobile = ActiveEmployee.Mobile;
+            EMail = ActiveEmployee.Email;
+            Position = ActiveEmployee.Position;
         }
 
         [InjectionConstructor]
-        public EmployeeViewModel(IEntity entity)
+        public EmployeeViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId)
         {
-            ActiveEntity = entity;
+            Repository = repository;
+            Writer = writer;
+            CompanyId = companyId;
+            SaveEntityCommand = new RelayCommand(SaveEntity, CanSaveEntity);
+            ActiveEmployee = entity as Employee;
         }
+
+        public bool CanSaveEntity()
+        {
+            if (ActiveEmployee == null)
+            {
+                if (!string.IsNullOrEmpty(Name) || !string.IsNullOrEmpty(Phone) ||
+                    !string.IsNullOrEmpty(Mobile) || !string.IsNullOrEmpty(EMail) || !string.IsNullOrEmpty(Position))
+                {
+                    SaveButtonVisible = true;
+                    return true;
+                }
+                SaveButtonVisible = false;
+                return false;
+            }
+
+            if (Name != ActiveEmployee.Name || Phone != ActiveEmployee.Phone ||
+                Mobile != ActiveEmployee.Mobile || EMail != ActiveEmployee.Email || Position != ActiveEmployee.Position)
+            {
+                SaveButtonVisible = true;
+                return true;
+            }
+            SaveButtonVisible = false;
+            return false;
+        }
+
+        private async void SaveEntity()
+        {
+            if (ActiveEmployee != null)
+            {
+                ActiveEmployee.Name = Name;
+                ActiveEmployee.Phone = Phone;
+                ActiveEmployee.Mobile = Mobile;
+                ActiveEmployee.Email = EMail;
+                ActiveEmployee.Position = Position;
+                await Repository.SaveEntity(Writer, ActiveEmployee, CompanyId);
+            }
+
+            else
+            {
+                var emp = new Employee()
+                {
+                    Name = this.Name,
+                    Phone = this.Phone,
+                    Mobile = this.Mobile,
+                    Email = this.EMail,
+                    Position = this.Position,
+                };
+                int id = await Repository.SaveEntity(Writer, emp, CompanyId);
+
+                ActiveEmployee = new Employee()
+                {
+                    Id = id,
+                    Name = this.Name,
+                    Phone = this.Phone,
+                    Mobile = this.Mobile,
+                    Email = this.EMail,
+                    Position = this.Position
+                };
+            }
+            Messenger.Default.Send(new EntityAddedMessenger() {Entity = ActiveEmployee});
+        }
+
     }
 }

@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight;
 using Microsoft.Practices.Unity;
 using ModelLayer;
+using Repositories;
+using Utils;
 
 namespace ViewModels
 {
@@ -44,6 +46,10 @@ namespace ViewModels
             }
         }
 
+        public IWriter Writer { get; set; }
+        public IRepository Repository { get; set; }
+        public int CompanyId { get; set; }
+
         private void UpdateAllFields()
         {
             Date = Convert.ToDateTime(_activeTodo.Date);
@@ -51,8 +57,11 @@ namespace ViewModels
         }
 
         [InjectionConstructor]
-        public TodoViewModel(IEntity entity)
+        public TodoViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId)
         {
+            CompanyId = companyId;
+            Writer = writer;
+            Repository = repository;
             ActiveEntity = entity;
         }
     }

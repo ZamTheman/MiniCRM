@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using ModelLayer;
+using Repositories;
+using Utils;
 using Utils.Messages;
 
 namespace ViewModels
@@ -82,8 +85,15 @@ namespace ViewModels
                     return;
                 var type = entity.SelectedEntityMessageEntity.GetType().ToString();
                 string[] tempArray = type.Split('.');
-                ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], entity.SelectedEntityMessageEntity);
+                ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], entity.SelectedEntityMessageEntity, SelectedCompany.Id);
+            });
+
+            Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
+            {
+                this.SelectedCompany = company.SelectedCompany;
             });
         }
+
+        public ICompany SelectedCompany { get; set; }
     }
 }

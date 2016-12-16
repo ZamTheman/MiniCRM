@@ -7,7 +7,7 @@ namespace Utils
     {
         Task WriteDummyData();
 
-        Task SaveSingle();
+        Task<int> SaveEntity(IEntity entity, int companyId);
 
         Task DeleteSingleCompanyByIdAsync(int id);
 

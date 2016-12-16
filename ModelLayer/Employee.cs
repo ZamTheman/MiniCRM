@@ -7,8 +7,8 @@ namespace ModelLayer
         public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public string Mobil { get; set; }
-        public string EMail { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
         public string Position { get; set; }
     }
 }

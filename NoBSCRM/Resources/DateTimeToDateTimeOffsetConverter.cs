@@ -14,7 +14,8 @@ namespace NoBSCRM.Resources
             }
             catch (Exception)
             {
-                return DateTimeOffset.MinValue;
+                DateTime date = DateTime.Now;
+                return new DateTimeOffset(date);
             }
         }
 
