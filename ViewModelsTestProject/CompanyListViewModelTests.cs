@@ -38,7 +38,6 @@ namespace ViewModelsTestProject
             // Assert
             Assert.NotNull(vm);
             Assert.IsTrue(vm.SelectedCompany == null);
-            Assert.IsTrue(vm.AllCompanies == null);
         }
 
         [Test]
@@ -98,7 +97,7 @@ namespace ViewModelsTestProject
         [TestCase(5)]
         public void AllCompanies_AfterConstruction_IsNotNull(int nrCompanies)
         {
-            var listOfCompanies = new List<Company>();
+            var listOfCompanies = new List<ICompany>();
             for (int i = 0; i < nrCompanies; i++)
             {
                 var comp = new Company()

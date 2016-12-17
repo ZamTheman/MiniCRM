@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -16,8 +15,8 @@ namespace ViewModels
 {
     public class CompanyListViewModel : ViewModelBase, ICompanyListViewModel
     {
-        private ObservableCollection<Company> _allCompanies;
-        public ObservableCollection<Company> AllCompanies
+        private ObservableCollection<ICompany> _allCompanies;
+        public ObservableCollection<ICompany> AllCompanies
         {
             get { return _allCompanies; }
             set
@@ -59,10 +58,10 @@ namespace ViewModels
             SendCompanyCommand = new RelayCommand<Company>(SendSelectedCompany);
             DeleteCommand = new RelayCommand (DeleteSelectedCompany, () => _selectedCompany != null);
             AddCommand = new RelayCommand(() => SelectedCompany = null);
-            Initialization = LoadDataAsync();
+            Initialization = LoadDataAsync(0);
             Messenger.Default.Register<ListupdatedMessenger>(this , (action) =>
             {
-                Initialization = LoadDataAsync();
+                Initialization = LoadDataAsync(action.CompanyId);
             });
         }
         
@@ -85,12 +84,12 @@ namespace ViewModels
         // Clean the generation of dummy data. Move to Mock repository?
         //
 
-        private async Task LoadDataAsync()
+        private async Task LoadDataAsync(int companyId)
         {
-            var companies = new List<Company>();
+            var companies = new List<ICompany>();
             try
             {
-                companies = await _repository.GetAll(_reader) as List<Company>;
+                companies = (List<ICompany>) await _repository.GetAll(_reader);
             }
 
             catch
@@ -106,14 +105,15 @@ namespace ViewModels
                 }
             }
             
-            AllCompanies = new ObservableCollection<Company>();
+            AllCompanies = new ObservableCollection<ICompany>();
             AllCompanies.AddRange(companies);
+            SelectedCompany = AllCompanies.FirstOrDefault(c => c.Id == companyId);
         }
         
         private async Task GenerateNewDataIfEmpty()
         {
             await _repository.WriteDummyData(_writer);
-            await LoadDataAsync();
+            await LoadDataAsync(0);
         }
     }
 }

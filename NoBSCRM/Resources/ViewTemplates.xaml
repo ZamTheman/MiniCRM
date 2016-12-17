@@ -218,11 +218,39 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <DatePicker x:Name="TodoDatePicker" Date="{Binding Date, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
+                            <DatePicker x:Name="TodoDatePicker" Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description}" TextWrapping="Wrap" Height="30" Width="250"/>
+                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Save Changes to Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Delete Selected Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                                </Button.Background>
+                            </Button>
+                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Add a new Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                                </Button.Background>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -235,11 +263,39 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
+                            <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post}" TextWrapping="Wrap" Height="30" Width="250"/>
+                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="30" Width="250"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Save Changes to Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Delete Selected Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                                </Button.Background>
+                            </Button>
+                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Add a new Entity"/>
+                                </ToolTipService.ToolTip>
+                                <Button.Background>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                                </Button.Background>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

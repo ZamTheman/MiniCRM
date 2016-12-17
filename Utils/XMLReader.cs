@@ -11,12 +11,12 @@ namespace Utils
 {
     public class XMLReader : XMLFileIOBase, IReader
     {
-        public async Task<Company> GetSingleById(int id)
+        public async Task<ICompany> GetSingleById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Company>> GetAll()
+        public async Task<IList<ICompany>> GetAll()
         {
             StorageFile file = await GetFilePath();
             Stream stream = await file.OpenStreamForReadAsync();
@@ -28,7 +28,7 @@ namespace Utils
             }
 
             var companies = xDoc.Descendants("Company");
-            var listToReturn = new List<Company>();
+            var listToReturn = new List<ICompany>();
 
             foreach (var xElement in companies)
             {

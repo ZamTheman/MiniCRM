@@ -78,21 +78,30 @@ namespace ViewModels
 
         private void RegisterMessages()
         {
-            Messenger.Default.Register<SelectedEntityMessenger>(this, (entity) =>
+            Messenger.Default.Register<SelectedEntityMessenger>(this, (company) =>
             {
                 ThirdColumnViewModel = null;
-                if (entity.SelectedEntityMessageEntity == null)
+                if (company.SelectedEntityMessageEntity == null)
                     return;
-                var type = entity.SelectedEntityMessageEntity.GetType().ToString();
+                var type = company.SelectedEntityMessageEntity.GetType().ToString();
                 string[] tempArray = type.Split('.');
-                ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], entity.SelectedEntityMessageEntity, SelectedCompany.Id);
+                ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], company.SelectedEntityMessageEntity, SelectedCompany.Id);
             });
 
             Messenger.Default.Register<SelectedCompanyMessenger>(this, (company) =>
             {
                 this.SelectedCompany = company.SelectedCompany;
             });
+
+            //Messenger.Default.Register<EntityAddedMessenger>(this, (entity) =>
+            //{
+            //    ThirdColumnViewModel = null;
+            //    var type = entity.GetType().ToString();
+            //    string[] tempArray = type.Split('.');
+            //    ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], null, SelectedCompany.Id);
+            //});
         }
+        
 
         public ICompany SelectedCompany { get; set; }
     }

@@ -2,5 +2,6 @@
 {
     public class ListupdatedMessenger
     {
+        public int CompanyId { get; set; }
     }
 }

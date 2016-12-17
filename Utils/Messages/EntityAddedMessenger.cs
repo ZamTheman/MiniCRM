@@ -10,5 +10,6 @@ namespace Utils.Messages
     public class EntityAddedMessenger
     {
         public IEntity Entity { get; set; }
+        public int companyId { get; set; }
     }
 }

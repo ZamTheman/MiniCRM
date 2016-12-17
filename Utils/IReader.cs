@@ -6,8 +6,8 @@ namespace Utils
 {
     public interface IReader
     {
-        Task<Company> GetSingleById(int id);
+        Task<ICompany> GetSingleById(int id);
 
-        Task<IList<Company>> GetAll();
+        Task<IList<ICompany>> GetAll();
     }
 }

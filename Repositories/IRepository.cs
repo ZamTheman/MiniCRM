@@ -7,15 +7,15 @@ namespace Repositories
 {
     public interface IRepository
     {  
-        Task<IList<Company>> GetAll(IReader reader);
+        Task<IList<ICompany>> GetAll(IReader reader);
 
-        Task<Company> GetCompany(IReader reader);
+        Task<ICompany> GetCompany(IReader reader);
 
         Task<int> Save(IWriter writer, ICompany company);
 
         Task<int> SaveEntity(IWriter writer, IEntity entity, int companyId);
 
-        Task Update(IWriter writer, Company company);
+        Task Update(IWriter writer, ICompany company);
 
         Task DeleteCompany(IWriter writer, ICompany company);
 

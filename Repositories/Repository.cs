@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModelLayer;
 using Utils;
@@ -7,12 +8,12 @@ namespace Repositories
 {
     public class Repository : IRepository
     {
-        public async Task<IList<Company>> GetAll(IReader reader)
+        public async Task<IList<ICompany>> GetAll(IReader reader)
         {
             return await reader.GetAll();
         }
 
-        public Task<Company> GetCompany(IReader reader)
+        public Task<ICompany> GetCompany(IReader reader)
         {
             throw new System.NotImplementedException();
         }
@@ -45,6 +46,11 @@ namespace Repositories
         public async Task WriteDummyData(IWriter writer)
         {
             await writer.WriteDummyData();
+        }
+
+        public Task Update(IWriter writer, ICompany company)
+        {
+            throw new NotImplementedException();
         }
     }
 }

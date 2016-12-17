@@ -1,9 +1,12 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.Unity;
 using ModelLayer;
 using Repositories;
 using Utils;
+using Utils.Messages;
 
 namespace ViewModels
 {
@@ -18,6 +21,7 @@ namespace ViewModels
                 if (value == _date)
                     return;
                 Set(() => Date, ref _date, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -30,6 +34,7 @@ namespace ViewModels
                 if (value == _post)
                     return;
                 Set(() => Post, ref _post, value);
+                SaveEntityCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -46,14 +51,39 @@ namespace ViewModels
             }
         }
 
+        private bool _saveButtonVisible;
+        public bool SaveButtonVisible
+        {
+            get { return _saveButtonVisible; }
+            set { Set(() => SaveButtonVisible, ref _saveButtonVisible, value); }
+        }
+
         public IWriter Writer { get; set; }
         public IRepository Repository { get; set; }
         public int CompanyId { get; set; }
+        public RelayCommand SaveEntityCommand { get; set; }
+
+        private HistoryPost _activeHistoryPost;
+        public HistoryPost ActiveHistoryPost
+        {
+            get { return _activeHistoryPost; }
+            set
+            {
+                if (value == _activeHistoryPost)
+                    return;
+                Set(() => ActiveHistoryPost, ref _activeHistoryPost, value);
+                UpdateAllFields();
+            }
+        }
 
         private void UpdateAllFields()
         {
-            Date = Convert.ToDateTime(_activePost.Date);
-            Post = _activePost.Post;
+            if (ActiveHistoryPost != null)
+                Date = Convert.ToDateTime(ActiveHistoryPost.Date);
+            else
+                Date = DateTime.Now;
+
+            Post = ActiveHistoryPost.Post;
         }
 
         [InjectionConstructor]
@@ -62,7 +92,56 @@ namespace ViewModels
             CompanyId = companyId;
             Writer = writer;
             Repository = repository;
-            ActiveEntity = entity;
+            SaveEntityCommand = new RelayCommand(SaveEntity, CanSaveEntity);
+            ActiveHistoryPost = entity as HistoryPost;
+        }
+
+        private bool CanSaveEntity()
+        {
+            if (ActiveHistoryPost == null)
+            {
+                if (!string.IsNullOrEmpty(Post))
+                {
+                    SaveButtonVisible = true;
+                    return true;
+                }
+            }
+
+            if (Date != ActiveHistoryPost.Date || Post != ActiveHistoryPost.Post)
+            {
+                SaveButtonVisible = true;
+                return true;
+            }
+            SaveButtonVisible = false;
+            return false;
+        }
+
+        private async void SaveEntity()
+        {
+            if (ActiveHistoryPost != null)
+            {
+                ActiveHistoryPost.Date = Date;
+                ActiveHistoryPost.Post = Post;
+                await Repository.SaveEntity(Writer, ActiveHistoryPost, CompanyId);
+            }
+
+            else
+            {
+                var ent = new HistoryPost()
+                {
+                    Date = this.Date,
+                    Post = this.Post
+                };
+                int id = await Repository.SaveEntity(Writer, ent, CompanyId);
+
+                ActiveHistoryPost = new HistoryPost()
+                {
+                    Id = id,
+                    Date = this.Date,
+                    Post = this.Post
+                };
+            }
+            Messenger.Default.Send(new EntityAddedMessenger() { Entity = ActiveHistoryPost, companyId = CompanyId });
         }
     }
 }

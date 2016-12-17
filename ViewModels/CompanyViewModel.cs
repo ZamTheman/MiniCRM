@@ -249,7 +249,7 @@ namespace ViewModels
 
         private void ListWasUpdated()
         {
-            Messenger.Default.Send(new ListupdatedMessenger());
+            Messenger.Default.Send(new ListupdatedMessenger() {CompanyId = SelectedCompany.Id });
         }
 
         private async Task DeleteEntityFromFile()

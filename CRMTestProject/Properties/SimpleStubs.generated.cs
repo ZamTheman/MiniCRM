@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModelLayer;
 using Utils;
+using Repositories;
 
 namespace ModelLayer
 {
@@ -253,12 +254,12 @@ namespace Repositories
     {
         private readonly StubContainer<StubIRepository> _stubs = new StubContainer<StubIRepository>();
 
-        global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.Company>> global::Repositories.IRepository.GetAll(global::Utils.IReader reader)
+        global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.ICompany>> global::Repositories.IRepository.GetAll(global::Utils.IReader reader)
         {
             return _stubs.GetMethodStub<GetAll_IReader_Delegate>("GetAll").Invoke(reader);
         }
 
-        public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.Company>> GetAll_IReader_Delegate(global::Utils.IReader reader);
+        public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.ICompany>> GetAll_IReader_Delegate(global::Utils.IReader reader);
 
         public StubIRepository GetAll(GetAll_IReader_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -266,12 +267,12 @@ namespace Repositories
             return this;
         }
 
-        global::System.Threading.Tasks.Task<global::ModelLayer.Company> global::Repositories.IRepository.GetCompany(global::Utils.IReader reader)
+        global::System.Threading.Tasks.Task<global::ModelLayer.ICompany> global::Repositories.IRepository.GetCompany(global::Utils.IReader reader)
         {
             return _stubs.GetMethodStub<GetCompany_IReader_Delegate>("GetCompany").Invoke(reader);
         }
 
-        public delegate global::System.Threading.Tasks.Task<global::ModelLayer.Company> GetCompany_IReader_Delegate(global::Utils.IReader reader);
+        public delegate global::System.Threading.Tasks.Task<global::ModelLayer.ICompany> GetCompany_IReader_Delegate(global::Utils.IReader reader);
 
         public StubIRepository GetCompany(GetCompany_IReader_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -279,12 +280,12 @@ namespace Repositories
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Repositories.IRepository.Save(global::Utils.IWriter writer, global::ModelLayer.ICompany company)
+        global::System.Threading.Tasks.Task<int> global::Repositories.IRepository.Save(global::Utils.IWriter writer, global::ModelLayer.ICompany company)
         {
             return _stubs.GetMethodStub<Save_IWriter_ICompany_Delegate>("Save").Invoke(writer, company);
         }
 
-        public delegate global::System.Threading.Tasks.Task Save_IWriter_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.ICompany company);
+        public delegate global::System.Threading.Tasks.Task<int> Save_IWriter_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.ICompany company);
 
         public StubIRepository Save(Save_IWriter_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -292,14 +293,27 @@ namespace Repositories
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Repositories.IRepository.Update(global::Utils.IWriter writer, global::ModelLayer.Company company)
+        global::System.Threading.Tasks.Task<int> global::Repositories.IRepository.SaveEntity(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, int companyId)
         {
-            return _stubs.GetMethodStub<Update_IWriter_Company_Delegate>("Update").Invoke(writer, company);
+            return _stubs.GetMethodStub<SaveEntity_IWriter_IEntity_Int32_Delegate>("SaveEntity").Invoke(writer, entity, companyId);
         }
 
-        public delegate global::System.Threading.Tasks.Task Update_IWriter_Company_Delegate(global::Utils.IWriter writer, global::ModelLayer.Company company);
+        public delegate global::System.Threading.Tasks.Task<int> SaveEntity_IWriter_IEntity_Int32_Delegate(global::Utils.IWriter writer, global::ModelLayer.IEntity entity, int companyId);
 
-        public StubIRepository Update(Update_IWriter_Company_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIRepository SaveEntity(SaveEntity_IWriter_IEntity_Int32_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        global::System.Threading.Tasks.Task global::Repositories.IRepository.Update(global::Utils.IWriter writer, global::ModelLayer.ICompany company)
+        {
+            return _stubs.GetMethodStub<Update_IWriter_ICompany_Delegate>("Update").Invoke(writer, company);
+        }
+
+        public delegate global::System.Threading.Tasks.Task Update_IWriter_ICompany_Delegate(global::Utils.IWriter writer, global::ModelLayer.ICompany company);
+
+        public StubIRepository Update(Update_IWriter_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
@@ -353,12 +367,12 @@ namespace Utils
     {
         private readonly StubContainer<StubIReader> _stubs = new StubContainer<StubIReader>();
 
-        global::System.Threading.Tasks.Task<global::ModelLayer.Company> global::Utils.IReader.GetSingleById(int id)
+        global::System.Threading.Tasks.Task<global::ModelLayer.ICompany> global::Utils.IReader.GetSingleById(int id)
         {
             return _stubs.GetMethodStub<GetSingleById_Int32_Delegate>("GetSingleById").Invoke(id);
         }
 
-        public delegate global::System.Threading.Tasks.Task<global::ModelLayer.Company> GetSingleById_Int32_Delegate(int id);
+        public delegate global::System.Threading.Tasks.Task<global::ModelLayer.ICompany> GetSingleById_Int32_Delegate(int id);
 
         public StubIReader GetSingleById(GetSingleById_Int32_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -366,12 +380,12 @@ namespace Utils
             return this;
         }
 
-        global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.Company>> global::Utils.IReader.GetAll()
+        global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.ICompany>> global::Utils.IReader.GetAll()
         {
             return _stubs.GetMethodStub<GetAll_Delegate>("GetAll").Invoke();
         }
 
-        public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.Company>> GetAll_Delegate();
+        public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IList<global::ModelLayer.ICompany>> GetAll_Delegate();
 
         public StubIReader GetAll(GetAll_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -401,14 +415,14 @@ namespace Utils
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Utils.IWriter.SaveSingle()
+        global::System.Threading.Tasks.Task<int> global::Utils.IWriter.SaveEntity(global::ModelLayer.IEntity entity, int companyId)
         {
-            return _stubs.GetMethodStub<SaveSingle_Delegate>("SaveSingle").Invoke();
+            return _stubs.GetMethodStub<SaveEntity_IEntity_Int32_Delegate>("SaveEntity").Invoke(entity, companyId);
         }
 
-        public delegate global::System.Threading.Tasks.Task SaveSingle_Delegate();
+        public delegate global::System.Threading.Tasks.Task<int> SaveEntity_IEntity_Int32_Delegate(global::ModelLayer.IEntity entity, int companyId);
 
-        public StubIWriter SaveSingle(SaveSingle_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIWriter SaveEntity(SaveEntity_IEntity_Int32_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
@@ -453,12 +467,12 @@ namespace Utils
             return this;
         }
 
-        global::System.Threading.Tasks.Task global::Utils.IWriter.SaveCompany(global::ModelLayer.ICompany company)
+        global::System.Threading.Tasks.Task<int> global::Utils.IWriter.SaveCompany(global::ModelLayer.ICompany company)
         {
             return _stubs.GetMethodStub<SaveCompany_ICompany_Delegate>("SaveCompany").Invoke(company);
         }
 
-        public delegate global::System.Threading.Tasks.Task SaveCompany_ICompany_Delegate(global::ModelLayer.ICompany company);
+        public delegate global::System.Threading.Tasks.Task<int> SaveCompany_ICompany_Delegate(global::ModelLayer.ICompany company);
 
         public StubIWriter SaveCompany(SaveCompany_ICompany_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -493,30 +507,88 @@ namespace ViewModels
     {
         private readonly StubContainer<StubIEntityViewModel> _stubs = new StubContainer<StubIEntityViewModel>();
 
-        global::ModelLayer.IEntity global::ViewModels.IEntityViewModel.ActiveEntity
+        global::Utils.IWriter global::ViewModels.IEntityViewModel.Writer
         {
             get
             {
-                return _stubs.GetMethodStub<ActiveEntity_Get_Delegate>("get_ActiveEntity").Invoke();
+                return _stubs.GetMethodStub<Writer_Get_Delegate>("get_Writer").Invoke();
             }
 
             set
             {
-                _stubs.GetMethodStub<ActiveEntity_Set_Delegate>("set_ActiveEntity").Invoke(value);
+                _stubs.GetMethodStub<Writer_Set_Delegate>("set_Writer").Invoke(value);
             }
         }
 
-        public delegate global::ModelLayer.IEntity ActiveEntity_Get_Delegate();
+        global::Repositories.IRepository global::ViewModels.IEntityViewModel.Repository
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Repository_Get_Delegate>("get_Repository").Invoke();
+            }
 
-        public StubIEntityViewModel ActiveEntity_Get(ActiveEntity_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+            set
+            {
+                _stubs.GetMethodStub<Repository_Set_Delegate>("set_Repository").Invoke(value);
+            }
+        }
+
+        int global::ViewModels.IEntityViewModel.CompanyId
+        {
+            get
+            {
+                return _stubs.GetMethodStub<CompanyId_Get_Delegate>("get_CompanyId").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<CompanyId_Set_Delegate>("set_CompanyId").Invoke(value);
+            }
+        }
+
+        public delegate global::Utils.IWriter Writer_Get_Delegate();
+
+        public StubIEntityViewModel Writer_Get(Writer_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
 
-        public delegate void ActiveEntity_Set_Delegate(global::ModelLayer.IEntity value);
+        public delegate void Writer_Set_Delegate(global::Utils.IWriter value);
 
-        public StubIEntityViewModel ActiveEntity_Set(ActiveEntity_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIEntityViewModel Writer_Set(Writer_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::Repositories.IRepository Repository_Get_Delegate();
+
+        public StubIEntityViewModel Repository_Get(Repository_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void Repository_Set_Delegate(global::Repositories.IRepository value);
+
+        public StubIEntityViewModel Repository_Set(Repository_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate int CompanyId_Get_Delegate();
+
+        public StubIEntityViewModel CompanyId_Get(CompanyId_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void CompanyId_Set_Delegate(int value);
+
+        public StubIEntityViewModel CompanyId_Set(CompanyId_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
@@ -531,14 +603,14 @@ namespace ViewModels
     {
         private readonly StubContainer<StubIEntityViewModelFactory> _stubs = new StubContainer<StubIEntityViewModelFactory>();
 
-        global::ViewModels.IEntityViewModel global::ViewModels.IEntityViewModelFactory.GetEntityViewModel(string type, global::ModelLayer.IEntity entity)
+        global::ViewModels.IEntityViewModel global::ViewModels.IEntityViewModelFactory.GetEntityViewModel(string type, global::ModelLayer.IEntity entity, int companyId)
         {
-            return _stubs.GetMethodStub<GetEntityViewModel_String_IEntity_Delegate>("GetEntityViewModel").Invoke(type, entity);
+            return _stubs.GetMethodStub<GetEntityViewModel_String_IEntity_Int32_Delegate>("GetEntityViewModel").Invoke(type, entity, companyId);
         }
 
-        public delegate global::ViewModels.IEntityViewModel GetEntityViewModel_String_IEntity_Delegate(string type, global::ModelLayer.IEntity entity);
+        public delegate global::ViewModels.IEntityViewModel GetEntityViewModel_String_IEntity_Int32_Delegate(string type, global::ModelLayer.IEntity entity, int companyId);
 
-        public StubIEntityViewModelFactory GetEntityViewModel(GetEntityViewModel_String_IEntity_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubIEntityViewModelFactory GetEntityViewModel(GetEntityViewModel_String_IEntity_Int32_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

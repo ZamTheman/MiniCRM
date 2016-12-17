@@ -99,8 +99,6 @@ namespace ViewModels
                 UpdateAllFields();
             }
         }
-        
-        public IEntity ActiveEntity { get; set; }
         public IWriter Writer { get; set; }
         public IRepository Repository { get; set; }
         public int CompanyId { get; set; }
@@ -125,7 +123,7 @@ namespace ViewModels
             ActiveEmployee = entity as Employee;
         }
 
-        public bool CanSaveEntity()
+        private bool CanSaveEntity()
         {
             if (ActiveEmployee == null)
             {
@@ -183,7 +181,7 @@ namespace ViewModels
                     Position = this.Position
                 };
             }
-            Messenger.Default.Send(new EntityAddedMessenger() {Entity = ActiveEmployee});
+            Messenger.Default.Send(new EntityAddedMessenger() {Entity = ActiveEmployee, companyId = CompanyId});
         }
 
     }
