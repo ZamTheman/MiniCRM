@@ -43,6 +43,7 @@
     <Compile Include="CompanyViewModel.cs" />
     <Compile Include="DesignTimeCompanyListViewModel.cs" />
     <Compile Include="EmployeeViewModel.cs" />
+    <Compile Include="EntityViewModelBase.cs" />
     <Compile Include="EntityViewModelFactory.cs" />
     <Compile Include="HistoryViewModel.cs" />
     <Compile Include="ICompanyListViewModel.cs" />

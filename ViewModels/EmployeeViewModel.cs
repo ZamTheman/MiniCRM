@@ -9,19 +9,8 @@ using Utils.Messages;
 
 namespace ViewModels
 {
-    public class EmployeeViewModel : ViewModelBase, IEntityViewModel
+    public class EmployeeViewModel : EntityViewModelBase
     {
-        private bool _saveButtonVisible;
-        public bool SaveButtonVisible
-        {
-            get { return _saveButtonVisible; }
-            set
-            {
-                Set(() => SaveButtonVisible, ref _saveButtonVisible, value);
-                
-            }
-        }
-
         private string _name;
         public string Name
         {
@@ -99,11 +88,7 @@ namespace ViewModels
                 UpdateAllFields();
             }
         }
-        public IWriter Writer { get; set; }
-        public IRepository Repository { get; set; }
-        public int CompanyId { get; set; }
-        public RelayCommand SaveEntityCommand { get; set; }
-
+ 
         private void UpdateAllFields()
         {
             Name = ActiveEmployee.Name;
@@ -114,11 +99,8 @@ namespace ViewModels
         }
 
         [InjectionConstructor]
-        public EmployeeViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId)
+        public EmployeeViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId) : base(repository, writer, companyId)
         {
-            Repository = repository;
-            Writer = writer;
-            CompanyId = companyId;
             SaveEntityCommand = new RelayCommand(SaveEntity, CanSaveEntity);
             ActiveEmployee = entity as Employee;
         }
@@ -161,7 +143,7 @@ namespace ViewModels
 
             else
             {
-                var emp = new Employee()
+                ActiveEmployee = new Employee()
                 {
                     Name = this.Name,
                     Phone = this.Phone,
@@ -169,20 +151,12 @@ namespace ViewModels
                     Email = this.EMail,
                     Position = this.Position,
                 };
-                int id = await Repository.SaveEntity(Writer, emp, CompanyId);
+                int id = await Repository.SaveEntity(Writer, ActiveEmployee, CompanyId);
 
-                ActiveEmployee = new Employee()
-                {
-                    Id = id,
-                    Name = this.Name,
-                    Phone = this.Phone,
-                    Mobile = this.Mobile,
-                    Email = this.EMail,
-                    Position = this.Position
-                };
+                ActiveEmployee.Id = id;
             }
+
             Messenger.Default.Send(new EntityAddedMessenger() {Entity = ActiveEmployee, companyId = CompanyId});
         }
-
     }
 }

@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:vm="using:ViewModels"
+    xmlns:toolkit="using:WinRTXamlToolkit.Controls"
     xmlns:uts="using:Utils"
     xmlns:resources="using:NoBSCRM.Resources">
 
@@ -33,7 +34,42 @@
             <TextBlock Text="{Binding Post}"/>
         </StackPanel>
     </DataTemplate>
-    <!-- End Item Templates -->
+    
+    <!-- Template for common items in Entity Views -->
+    <DataTemplate x:Key="CommonItemsTemplate">
+        <StackPanel Orientation="Vertical" Visibility="{Binding AddRemoveButtonsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Save Changes to Entity"/>
+                    </ToolTipService.ToolTip>
+                    <Button.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <!--
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Delete Selected Entity"/>
+                    </ToolTipService.ToolTip>
+                    <Button.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Add a new Entity"/>
+                    </ToolTipService.ToolTip>
+                    <Button.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            -->
+        </StackPanel>
+    </DataTemplate>
     
     <!-- ViewModel templates-->
     <uts:TemplateCollection x:Key="Templates">
@@ -48,22 +84,20 @@
                                 <TextBox Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Button Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}" Width="32" Height="32" Margin="15,0">
+                                <toolkit:ImageButton Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/Remove.png" HoverStateImageSource="../Assets/RemoveHover.png"
+                                                     DisabledStateImageSource="../Assets/RemoveDisabled.png" PressedStateImageSource="../Assets/Remove.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Delete Selected Company"/>
                                     </ToolTipService.ToolTip>
-                                    <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
-                                    </Button.Background>
-                                </Button>
-                                <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                </toolkit:ImageButton>
+                                <toolkit:ImageButton Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0"
+                                                     NormalStateImageSource="../Assets/Add.png" HoverStateImageSource="../Assets/AddHover.png"
+                                                     DisabledStateImageSource="../Assets/AddDisabled.png" PressedStateImageSource="../Assets/Add.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Add new Company"/>
                                     </ToolTipService.ToolTip>
-                                    <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
-                                    </Button.Background>
-                                </Button>
+                                </toolkit:ImageButton>
                             </StackPanel>
                         </StackPanel>
                         <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
@@ -87,65 +121,62 @@
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                                <TextBox x:Name="CustomerPhoneTextBox" Text="{Binding CompanyPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                                <TextBox x:Name="CustomerPhoneTextBox" Text="{Binding CompanyPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" InputScope="TelephoneNumber"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                                 <TextBlock Text="Visiting Adress:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
                                 <TextBox x:Name="CustomerStreetTextBox" Text="{Binding CompanyStreet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Button Command="{Binding SaveCompanyCommand}" Width="32" Height="32" Margin="15,0">
+                                <toolkit:ImageButton Command="{Binding SaveCompanyCommand}" Width="32" Height="32" Margin="15,0"
+                                                     NormalStateImageSource="../Assets/SaveRed.png" HoverStateImageSource="../Assets/SaveRedHover.png"
+                                                     PressedStateImageSource="../Assets/SaveRed.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Save Changes to Company"/>
                                     </ToolTipService.ToolTip>
-                                    <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                    </Button.Background>
-                                </Button>
+                                </toolkit:ImageButton>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="10">
-                                <ToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0" Command="{Binding EmplyeeListActiveCommand}" IsChecked="{Binding ViewEmployees, Mode=TwoWay}">
+                                <toolkit:ImageToggleButton x:Name="ViewEmployeesToggleButton" Width="32" Height="32" Margin="15,0" Command="{Binding EmplyeeListActiveCommand}" IsChecked="{Binding ViewEmployees, Mode=TwoWay}"
+                                                     NormalStateImageSource="../Assets/Employee.png" HoverStateImageSource="../Assets/EmployeeHover.png"
+                                                     PressedStateImageSource="../Assets/EmployeeActive.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Toogle Employees Visibility"/>
                                     </ToolTipService.ToolTip>
-                                    <ToggleButton.Background>
-                                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Employee.png"/>
-                                    </ToggleButton.Background>
-                                </ToggleButton>
-                                <ToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding TodoListActiveCommand}" IsChecked="{Binding ViewTodos, Mode=TwoWay}">
+                                </toolkit:ImageToggleButton>
+                                <toolkit:ImageToggleButton x:Name="ViewTodosToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding TodoListActiveCommand}" IsChecked="{Binding ViewTodos, Mode=TwoWay}"
+                                                     NormalStateImageSource="../Assets/Todo.png" HoverStateImageSource="../Assets/TodoHover.png"
+                                                     PressedStateImageSource="../Assets/TodoActive.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Toogle Todos Visibility"/>
                                     </ToolTipService.ToolTip>
-                                    <ToggleButton.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Todo.png"/>
-                                    </ToggleButton.Background>
-                                </ToggleButton>
-                                <ToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding HistoryListActiveCommand}" IsChecked="{Binding ViewHistories, Mode=TwoWay}">
+                                </toolkit:ImageToggleButton>
+                                <toolkit:ImageToggleButton x:Name="ViewHistoriesToggleButton" Width="32" Height="32"  Margin="15,0" Command="{Binding HistoryListActiveCommand}" IsChecked="{Binding ViewHistories, Mode=TwoWay}"
+                                                     NormalStateImageSource="../Assets/History.png" HoverStateImageSource="../Assets/HistoryHover.png"
+                                                     PressedStateImageSource="../Assets/HistoryActive.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Toogle History Posts Visibility"/>
                                     </ToolTipService.ToolTip>
                                     <ToggleButton.Background>
                                         <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/History.png"/>
                                     </ToggleButton.Background>
-                                </ToggleButton>
+                                </toolkit:ImageToggleButton>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding AddDeleteButtonsVisible, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,10">
-                                <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
+                                <toolkit:ImageButton Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/Remove.png" HoverStateImageSource="../Assets/RemoveHover.png"
+                                                     DisabledStateImageSource="../Assets/RemoveDisabled.png" PressedStateImageSource="../Assets/Remove.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Delete Selected Entity"/>
                                     </ToolTipService.ToolTip>
-                                    <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
-                                    </Button.Background>
-                                </Button>
-                                <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
+                                </toolkit:ImageButton>
+                                <toolkit:ImageButton Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/Add.png" HoverStateImageSource="../Assets/AddHover.png"
+                                                     DisabledStateImageSource="../Assets/AddDisabled.png" PressedStateImageSource="../Assets/Add.png">
                                     <ToolTipService.ToolTip>
                                         <ToolTip Content="Add a new Entity"/>
                                     </ToolTipService.ToolTip>
-                                    <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
-                                    </Button.Background>
-                                </Button>
+                                </toolkit:ImageButton>
                             </StackPanel>
                             <ListView ItemsSource="{Binding CompanyEmployees}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource EmployeeItemTemplate}" Visibility="{Binding ViewEmployees}"/>
                             <ListView ItemsSource="{Binding CompanyTodos}" SelectedItem="{Binding SelectedEntity,Mode=TwoWay}" ItemTemplate="{StaticResource TodoItemTemplate}" Visibility="{Binding ViewTodos}"/>
@@ -165,47 +196,19 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Phone:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeePhoneTextBox" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeePhoneTextBox" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" InputScope="TelephoneNumber"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Mobile:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeeMobileTextBox" Text="{Binding Mobile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeeMobileTextBox" Text="{Binding Mobile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" InputScope="TelephoneNumber"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Email:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="EmployeeEMailTextBox" Text="{Binding EMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
+                            <TextBox x:Name="EmployeeEMailTextBox" Text="{Binding EMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" InputScope="EmailSmtpAddress"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Position:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
                             <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Save Changes to Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,10">
-                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Delete Selected Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
-                                </Button.Background>
-                            </Button>
-                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Add a new Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
-                                </Button.Background>
-                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -222,41 +225,13 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="30" Width="250"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Save Changes to Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,10">
-                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Delete Selected Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
-                                </Button.Background>
-                            </Button>
-                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Add a new Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
-                                </Button.Background>
-                            </Button>
+                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinHeight="120" Width="250"/>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>
-        <!-- TodoViewTemplate-->
+        <!-- HistoryViewTemplate-->
         <uts:Template DataType="HistoryViewModel">
             <uts:Template.DataTemplate>
                 <DataTemplate>
@@ -267,42 +242,13 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="30" Width="250"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Save Changes to Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,10">
-                            <Button Command="{Binding DeleteCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Delete Selected Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Remove.png"/>
-                                </Button.Background>
-                            </Button>
-                            <Button Command="{Binding AddCommand}" Width="32" Height="32" Margin="15,0">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Add a new Entity"/>
-                                </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Add.png"/>
-                                </Button.Background>
-                            </Button>
+                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinHeight="120" Width="250" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </uts:Template.DataTemplate>
         </uts:Template>
     </uts:TemplateCollection>
-    <!-- end ViewModel templates-->
 
     <!-- Template Selector -->
     <uts:MyDataTemplateSelector x:Key="MyDataTemplateSelector" Templates="{StaticResource Templates}"/>
@@ -310,6 +256,7 @@
     <!-- Converters -->
     <resources:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter"/>
     <resources:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    <!-- end Converters -->
+    <resources:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    
 </ResourceDictionary>
 

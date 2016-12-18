@@ -176,8 +176,8 @@ namespace ViewModels
             set { Set(() => SaveButtonVisible, ref _saveButtonVisibility, value); }
         }
 
-        private IRepository _repository;
-        private IWriter _writer;
+        private readonly IRepository _repository;
+        private readonly IWriter _writer;
 
         #endregion
 
@@ -191,7 +191,7 @@ namespace ViewModels
         public RelayCommand<IEntity> EntitySelectedCommand { get; private set; }
         
         // Constructor
-        public CompanyViewModel(IRepository repository, IReader reader, IWriter writer)
+        public CompanyViewModel(IRepository repository,  IWriter writer)
         {
             this._repository = repository;
             this._writer = writer;
@@ -279,7 +279,6 @@ namespace ViewModels
                         SelectedCompany.Employees.RemoveAll(e => e.Id == SelectedEntity.Id);
                         CompanyEmployees.Remove(employeeToRemove);
                     }
-                        
                     break;
                 case "Todo":
                     var todoToRemove = CompanyTodos.FirstOrDefault(c => c.Id == SelectedEntity.Id);
@@ -288,7 +287,6 @@ namespace ViewModels
                         SelectedCompany.Todos.RemoveAll(t => t.Id == SelectedEntity.Id);
                         CompanyTodos.Remove(todoToRemove);
                     }
-                        
                     break;
                 case "HistoryPost":
                     var historyToRemove = CompanyHistories.FirstOrDefault(c => c.Id == SelectedEntity.Id);
@@ -333,6 +331,7 @@ namespace ViewModels
             ViewTodos = false;
             ViewHistories = false;
             SelectedEntity = null;
+            Messenger.Default.Send(new SelectedEntityMessenger() { SelectedEntityMessageEntity = null });
         }
 
         private void ToggleTodoListVisibility()
@@ -340,6 +339,7 @@ namespace ViewModels
             ViewEmployees = false;
             ViewHistories = false;
             SelectedEntity = null;
+            Messenger.Default.Send(new SelectedEntityMessenger() { SelectedEntityMessageEntity = null });
         }
 
         private void ToggleHistoryListVisibility()
@@ -347,6 +347,7 @@ namespace ViewModels
             ViewEmployees = false;
             ViewTodos = false;
             SelectedEntity = null;
+            Messenger.Default.Send(new SelectedEntityMessenger() { SelectedEntityMessageEntity = null });
         }
 
         private async void SaveCompany()
@@ -368,20 +369,8 @@ namespace ViewModels
 
             else
             {
-                int tempId = await _repository.Save(_writer, new Company()
-                {
-                    Name = CompanyName,
-                    City = CompanyCity,
-                    Phone = CompanyPhone,
-                    Street = CompanyStreet,
-                    Employees = CompanyEmployees,
-                    Todos = CompanyTodos,
-                    Histories = CompanyHistories
-                });
-
                 SelectedCompany = new Company
                 {
-                    Id = tempId,
                     Name = CompanyName,
                     City = CompanyCity,
                     Phone = CompanyPhone,
@@ -393,6 +382,10 @@ namespace ViewModels
                 SelectedCompany.Todos.AddRange(CompanyTodos);
                 SelectedCompany.Histories.Clear();
                 SelectedCompany.Histories.AddRange(CompanyHistories);
+
+                int tempId = await _repository.Save(_writer, SelectedCompany);
+
+                SelectedCompany.Id = tempId;
             }
 
             ListWasUpdated();

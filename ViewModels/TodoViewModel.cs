@@ -1,5 +1,4 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.Unity;
@@ -10,7 +9,7 @@ using Utils.Messages;
 
 namespace ViewModels
 {
-    public class TodoViewModel : ViewModelBase, IEntityViewModel
+    public class TodoViewModel : EntityViewModelBase
     {
         private DateTime _date;
         public DateTime Date
@@ -51,18 +50,6 @@ namespace ViewModels
             }
         }
 
-        public IWriter Writer { get; set; }
-        public IRepository Repository { get; set; }
-        public int CompanyId { get; set; }
-        public RelayCommand SaveEntityCommand { get; set; }
-
-        private bool _saveButtonVisible;
-        public bool SaveButtonVisible
-        {
-            get { return _saveButtonVisible; }
-            set { Set(() => SaveButtonVisible, ref _saveButtonVisible, value); }
-        }
-
         private void UpdateAllFields()
         {
             if (ActiveTodo != null)
@@ -74,11 +61,8 @@ namespace ViewModels
         }
 
         [InjectionConstructor]
-        public TodoViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId)
+        public TodoViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId) : base(repository, writer, companyId)
         {
-            CompanyId = companyId;
-            Writer = writer;
-            Repository = repository;
             SaveEntityCommand = new RelayCommand(SaveEntity, CanSaveEntity);
             ActiveTodo = entity as Todo;
         }
@@ -114,19 +98,14 @@ namespace ViewModels
 
             else
             {
-                var ent = new Todo()
-                {
-                    Date = this.Date,
-                    Description = this.Description
-                };
-                int id = await Repository.SaveEntity(Writer, ent, CompanyId);
-
                 ActiveTodo = new Todo()
                 {
-                    Id = id,
                     Date = this.Date,
                     Description = this.Description
                 };
+                int id = await Repository.SaveEntity(Writer, ActiveTodo, CompanyId);
+
+                ActiveTodo.Id = id;
             }
             Messenger.Default.Send(new EntityAddedMessenger() {Entity = ActiveTodo, companyId = CompanyId});
         }

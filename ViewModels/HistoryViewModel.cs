@@ -1,5 +1,4 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.Unity;
@@ -10,7 +9,7 @@ using Utils.Messages;
 
 namespace ViewModels
 {
-    public class HistoryViewModel : ViewModelBase, IEntityViewModel
+    public class HistoryViewModel : EntityViewModelBase
     {
         private DateTime _date;
         public DateTime Date
@@ -51,18 +50,6 @@ namespace ViewModels
             }
         }
 
-        private bool _saveButtonVisible;
-        public bool SaveButtonVisible
-        {
-            get { return _saveButtonVisible; }
-            set { Set(() => SaveButtonVisible, ref _saveButtonVisible, value); }
-        }
-
-        public IWriter Writer { get; set; }
-        public IRepository Repository { get; set; }
-        public int CompanyId { get; set; }
-        public RelayCommand SaveEntityCommand { get; set; }
-
         private HistoryPost _activeHistoryPost;
         public HistoryPost ActiveHistoryPost
         {
@@ -87,11 +74,8 @@ namespace ViewModels
         }
 
         [InjectionConstructor]
-        public HistoryViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId)
+        public HistoryViewModel(IEntity entity, IRepository repository, IWriter writer, int companyId) : base(repository, writer, companyId)
         {
-            CompanyId = companyId;
-            Writer = writer;
-            Repository = repository;
             SaveEntityCommand = new RelayCommand(SaveEntity, CanSaveEntity);
             ActiveHistoryPost = entity as HistoryPost;
         }
@@ -127,19 +111,14 @@ namespace ViewModels
 
             else
             {
-                var ent = new HistoryPost()
-                {
-                    Date = this.Date,
-                    Post = this.Post
-                };
-                int id = await Repository.SaveEntity(Writer, ent, CompanyId);
-
                 ActiveHistoryPost = new HistoryPost()
                 {
-                    Id = id,
                     Date = this.Date,
                     Post = this.Post
                 };
+                int id = await Repository.SaveEntity(Writer, ActiveHistoryPost, CompanyId);
+
+                ActiveHistoryPost.Id = id;
             }
             Messenger.Default.Send(new EntityAddedMessenger() { Entity = ActiveHistoryPost, companyId = CompanyId });
         }

@@ -19,7 +19,7 @@ namespace ViewModels
         public ObservableCollection<ICompany> AllCompanies
         {
             get { return _allCompanies; }
-            set
+            private set
             {
                 _allCompanies = value;
                 RaisePropertyChanged();
@@ -31,7 +31,7 @@ namespace ViewModels
         public ObservableCollection<ICompany> FilteredCompanies
         {
             get { return _filteredCompanies; }
-            set
+            private set
             {
                 _filteredCompanies = value;
                 RaisePropertyChanged();
@@ -48,19 +48,16 @@ namespace ViewModels
                 FilterCommand.Execute(value);
             }
         }
-
-
-        public RelayCommand<Company> SendCompanyCommand { get; }
+        
+        public RelayCommand<ICompany> SendCompanyCommand { get; }
         public RelayCommand DeleteCommand { get; }
         public RelayCommand AddCommand { get; }
-        public RelayCommand FilterCommand { get; set; }
-
+        public RelayCommand FilterCommand { get; }
         public Task Initialization { get; private set; }
-
         
-        private IRepository _repository;
-        private IReader _reader;
-        private IWriter _writer;
+        private readonly IRepository _repository;
+        private readonly IReader _reader;
+        private readonly IWriter _writer;
 
         private ICompany _selectedCompany;
         public ICompany SelectedCompany
@@ -81,7 +78,7 @@ namespace ViewModels
             _writer = writer;
             _reader = reader;
             _repository = repository;
-            SendCompanyCommand = new RelayCommand<Company>(SendSelectedCompany);
+            SendCompanyCommand = new RelayCommand<ICompany>(SendSelectedCompany);
             DeleteCommand = new RelayCommand (DeleteSelectedCompany, () => _selectedCompany != null);
             AddCommand = new RelayCommand(() => SelectedCompany = null);
             FilterCommand = new RelayCommand(FilterList);
@@ -99,20 +96,22 @@ namespace ViewModels
             if(FilteredCompanies == null)
                 FilteredCompanies = new ObservableCollection<ICompany>();
 
+            FilteredCompanies.Clear();
             if (string.IsNullOrEmpty(FilterString))
             {
-                FilteredCompanies.Clear();
                 FilteredCompanies.AddRange(AllCompanies);
             }
  
             else
             {
-                FilteredCompanies.Clear();
                 var query = AllCompanies.Where(c => c.Name.ToLower().Contains(FilterString.ToLower()) || c.City.ToLower().Contains(FilterString.ToLower()));
                 FilteredCompanies.AddRange(query);
             }
         }
 
+        //
+        // Todo, should I reload instead?
+        //
         private void DeleteSelectedCompany()
         {
             _repository.DeleteCompany(_writer, SelectedCompany);
@@ -126,19 +125,15 @@ namespace ViewModels
 
         private void SendSelectedCompany(ICompany company)
         {
-            Messenger.Default.Send<SelectedCompanyMessenger>(new SelectedCompanyMessenger() { SelectedCompany = company });
+            Messenger.Default.Send(new SelectedCompanyMessenger() { SelectedCompany = company });
         }
-
-        // Todo
-        // Clean the generation of dummy data. Move to Mock repository?
-        //
 
         private async Task LoadDataAsync(int companyId)
         {
             var companies = new List<ICompany>();
             try
             {
-                companies = (List<ICompany>) await _repository.GetAll(_reader);
+                companies.AddRange((List<ICompany>)await _repository.GetAll(_reader));
             }
             catch
             {
