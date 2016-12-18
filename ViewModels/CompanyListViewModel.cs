@@ -150,11 +150,5 @@ namespace ViewModels
             SelectedCompany = AllCompanies.FirstOrDefault(c => c.Id == companyId);
             FilterList();
         }
-        
-        private async Task GenerateNewDataIfEmpty()
-        {
-            await _repository.WriteDummyData(_writer);
-            await LoadDataAsync(0);
-        }
     }
 }

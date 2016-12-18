@@ -11,11 +11,6 @@ namespace Utils
 {
     public class XMLReader : XMLFileIOBase, IReader
     {
-        public async Task<ICompany> GetSingleById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IList<ICompany>> GetAll()
         {
             StorageFile file = await GetFilePath();
