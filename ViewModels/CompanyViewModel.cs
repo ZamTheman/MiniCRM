@@ -98,6 +98,7 @@ namespace ViewModels
             {
                 Set(() => SelectedCompany, ref _selectedCompany, value);
                 UpdateAllFields();
+                AddCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -221,7 +222,15 @@ namespace ViewModels
             HistoryListActiveCommand = new RelayCommand(ToggleHistoryListVisibility);
             EntitySelectedCommand = new RelayCommand<IEntity>(EntitySelected);
             DeleteCommand = new RelayCommand(DeleteSelectedEntity, () => _selectedEntity != null);
-            AddCommand = new RelayCommand(AddNewEntity);
+            AddCommand = new RelayCommand(AddNewEntity, CanAddEntity);
+        }
+
+        private bool CanAddEntity()
+        {
+            if (SelectedCompany == null || SelectedCompany.Id == 0)
+                return false;
+
+            return true;
         }
 
         private void AddNewEntity()

@@ -43,9 +43,9 @@
                 <DataTemplate>
                     <StackPanel>
                         <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Filter"/>
-                                <TextBox Text="{Binding FilterText}"/>
+                            <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                                <TextBlock Text="Filter:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+                                <TextBox Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <Button Command="{Binding DeleteCommand, Source={Binding SelectedCompany}}" Width="32" Height="32" Margin="15,0">
@@ -67,7 +67,7 @@
                             </StackPanel>
                         </StackPanel>
                         <ListView x:Name="CompanyListView" Margin="10" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" 
-                               ItemsSource="{Binding AllCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                               ItemsSource="{Binding FilteredCompanies}" ItemTemplate="{StaticResource CompanyItemTemplate}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
                     </StackPanel>
                  </DataTemplate>
             </uts:Template.DataTemplate>
@@ -99,7 +99,7 @@
                                         <ToolTip Content="Save Changes to Company"/>
                                     </ToolTipService.ToolTip>
                                     <Button.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
                                     </Button.Background>
                                 </Button>
                             </StackPanel>
@@ -185,7 +185,7 @@
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
                                 <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
                                 </Button.Background>
                             </Button>
                         </StackPanel>
@@ -230,7 +230,7 @@
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
                                 <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
                                 </Button.Background>
                             </Button>
                         </StackPanel>
@@ -275,7 +275,7 @@
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
                                 <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Save.png"/>
+                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
                                 </Button.Background>
                             </Button>
                         </StackPanel>

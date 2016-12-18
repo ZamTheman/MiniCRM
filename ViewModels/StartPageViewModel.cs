@@ -60,21 +60,7 @@ namespace ViewModels
             SecondColumnViewModel = companyViewModel;
             ThirdColumnViewModel = null;
             RegisterMessages();
-            //Initialization = UglyTests(); // To test stuff not accessible from unittest
         }
-
-        // Ugly test area
-
-        //public Task Initialization { get; private set; }
-
-        //private async Task UglyTests()
-        //{
-        //    var writer = new XMLWriter();
-        //    await writer.DeleteSingleEntityByIdAsync(1, new Employee() { Id = 1 });
-        //    string hey = "";
-        //}
-
-        // Ugly test area end
 
         private void RegisterMessages()
         {
@@ -92,14 +78,6 @@ namespace ViewModels
             {
                 this.SelectedCompany = company.SelectedCompany;
             });
-
-            //Messenger.Default.Register<EntityAddedMessenger>(this, (entity) =>
-            //{
-            //    ThirdColumnViewModel = null;
-            //    var type = entity.GetType().ToString();
-            //    string[] tempArray = type.Split('.');
-            //    ThirdColumnViewModel = _entityViewModelFactory.GetEntityViewModel(tempArray[tempArray.Length - 1], null, SelectedCompany.Id);
-            //});
         }
         
 
