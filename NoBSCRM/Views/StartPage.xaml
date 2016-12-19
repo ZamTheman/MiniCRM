@@ -38,16 +38,9 @@
             </ScrollViewer>
         </Grid>
         <Grid x:Name="ThirdGridColumn" Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <ScrollViewer>
                 <ContentControl Content="{Binding ThirdColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
-            </Grid>
-            <Grid Grid.Row="1" Visibility="{Binding ThirdColumnViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <ContentControl Content="{Binding ThirdColumnViewModel}" ContentTemplate="{StaticResource CommonItemsTemplate}"/>
-            </Grid>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>
