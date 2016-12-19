@@ -191,14 +191,13 @@
                             <TextBox x:Name="EmployeePositionTextBox" Text="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                            <toolkit:ImageButton Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/SaveRed.png" HoverStateImageSource="../Assets/SaveRedHover.png"
+                                                     PressedStateImageSource="../Assets/SaveRed.png">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
+                            </toolkit:ImageButton>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -213,19 +212,18 @@
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
                             <DatePicker x:Name="TodoDatePicker" Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                        <StackPanel Orientation="Vertical" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5, 0, 10">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinHeight="120" Width="250"/>
+                            <TextBox x:Name="TodoDescriptionTextBox" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                            <toolkit:ImageButton Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/SaveRed.png" HoverStateImageSource="../Assets/SaveRedHover.png"
+                                                     PressedStateImageSource="../Assets/SaveRed.png">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
+                            </toolkit:ImageButton>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -240,19 +238,18 @@
                             <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
                             <DatePicker x:Name="HistoryDatePicker" Date="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" Height="40" Width="250"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5">
+                        <StackPanel Orientation="Vertical" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 5, 0, 10">
                             <TextBlock Text="Description:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
-                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MinHeight="120" Width="250" />
+                            <TextBox x:Name="HistoryPostTextBox" Text="{Binding Post, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="250"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding SaveButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Button Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0">
+                            <toolkit:ImageButton Command="{Binding SaveEntityCommand}" Width="32" Height="32" Margin="15,0" 
+                                                     NormalStateImageSource="../Assets/SaveRed.png" HoverStateImageSource="../Assets/SaveRedHover.png"
+                                                     PressedStateImageSource="../Assets/SaveRed.png">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="Save Changes to Entity"/>
                                 </ToolTipService.ToolTip>
-                                <Button.Background>
-                                    <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/SaveRed.png"/>
-                                </Button.Background>
-                            </Button>
+                            </toolkit:ImageButton>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
