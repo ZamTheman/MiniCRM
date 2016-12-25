@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\BoolToVisibilityConverter.cs" />
+    <Compile Include="Resources\BoolToZeroWidthConverter.cs" />
     <Compile Include="Resources\DateTimeToDateTimeOffsetConverter.cs" />
     <Compile Include="Resources\NullToVisibilityConverter.cs" />
     <Compile Include="UnityServiceProvider.cs" />
@@ -138,6 +139,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\HistoryHover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\NavLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\NavLeftHoover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\NavRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\NavRightHoover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Open.png">
@@ -225,6 +238,7 @@
       <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
+
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

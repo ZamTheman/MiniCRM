@@ -264,6 +264,7 @@
     <resources:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter"/>
     <resources:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <resources:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <resources:BoolToZeroWidthConverter x:Key="BoolToZeroWidthConverter"/>
     
 </ResourceDictionary>
 

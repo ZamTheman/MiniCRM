@@ -36,7 +36,7 @@ namespace ViewModelsTestProject
             // Arrange
 
             // Act
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
             
             // Assert
             Assert.NotNull(vm);
@@ -47,7 +47,7 @@ namespace ViewModelsTestProject
         {
             // Arrange
             var company = new Company();
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
 
@@ -59,7 +59,7 @@ namespace ViewModelsTestProject
         public void DeleteCommandCanExecteWithoutSelectedCompany_Always_False()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
 
@@ -71,7 +71,7 @@ namespace ViewModelsTestProject
         public void SaveCommandCanExectuteWhenSelectedCompanyIsNullAndAllFieldsAreEmpty_Always_Fasle()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
             vm.SelectedCompany = null;
@@ -84,7 +84,7 @@ namespace ViewModelsTestProject
         public void SaveCommandCanExectuteWhenSelectedCompanyIsNotNullButFieldsAreIdenticalToSelectedCompany_Always_Fasle()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
             vm.SelectedCompany = new Company() {Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet"};
@@ -101,7 +101,7 @@ namespace ViewModelsTestProject
         public void SaveCommandCanExectuteWhenSelectedCompanyIsNotNullButFieldsDifferentToSelectedCompany_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
             vm.SelectedCompany = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
@@ -122,7 +122,7 @@ namespace ViewModelsTestProject
         {
             // Arrange
             var company = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
             mockRepository.Setup(m => m.Save(mockWriter.Object, It.IsAny<Company>())).Returns(Task.FromResult<int>(3));
 
             vm.SelectedCompany = company;
@@ -146,7 +146,7 @@ namespace ViewModelsTestProject
         {
             // Arrange
             var company = new Company() { Name = "MockName", City = "MockCity", Phone = "MockPhone", Street = "MockStreet" };
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
             mockRepository.Setup(m => m.Save(mockWriter.Object, It.IsAny<Company>())).Returns(Task.FromResult<int>(3));
 
             vm.SelectedCompany = null;
@@ -163,7 +163,7 @@ namespace ViewModelsTestProject
         public void DeleteCommandCanExecteWitSelectedCompany_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
             vm.SelectedEntity = mockEntity.Object;
@@ -176,7 +176,7 @@ namespace ViewModelsTestProject
         public void EntitySelectedCommandCanExecture_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
 
@@ -188,7 +188,7 @@ namespace ViewModelsTestProject
         public void EmployeeListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
             
             // Act
 
@@ -200,7 +200,7 @@ namespace ViewModelsTestProject
         public void TodoListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
 
@@ -212,7 +212,7 @@ namespace ViewModelsTestProject
         public void HistoryListActiveCommandTooggleCanExcute_Always_True()
         {
             // Arrange
-            var vm = new CompanyViewModel(mockRepository.Object, mockReader.Object, mockWriter.Object);
+            var vm = new CompanyViewModel(mockRepository.Object, mockWriter.Object);
 
             // Act
 
