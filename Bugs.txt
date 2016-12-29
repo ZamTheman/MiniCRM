@@ -1,0 +1,3 @@
+If date is not changed for new todos and history posts the date is set to DateTime.Min
+
+The adaptive layout is not updating predictable and is dependent on the current combination of visible columns

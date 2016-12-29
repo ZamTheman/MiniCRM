@@ -13,7 +13,7 @@
     <Page.DataContext>
         <Binding Path="StartPageInstance" Source="{StaticResource Locator}"/>
     </Page.DataContext>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="#FF513818">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="Base">
                 <VisualState x:Name="Full">
@@ -63,17 +63,17 @@
                                                      NormalStateImageSource="../Assets/NavRight.png" HoverStateImageSource="../Assets/NavRightHoover.png"
                                                      PressedStateImageSource="../Assets/NavRight.png"/>
         </StackPanel>
-        <Grid x:Name="FirstGridColumn" Grid.Row="1" Grid.Column="0">
+        <Grid x:Name="FirstGridColumn" Grid.Row="1" Grid.Column="0" Background="#FFEFF1C3">
             <ScrollViewer>
                 <ContentControl Content="{Binding FirstColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
             </ScrollViewer>
         </Grid>
-        <Grid x:Name="SecondGridColumn" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="SecondGridColumn" Grid.Row="1" Grid.Column="1" Background="#FF99C9EF">
             <ScrollViewer>
                 <ContentControl Content="{Binding SecondColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
             </ScrollViewer>
         </Grid>
-        <Grid x:Name="ThirdGridColumn" Grid.Row="1" Grid.Column="2" Visibility="Visible">
+        <Grid x:Name="ThirdGridColumn" Grid.Row="1" Grid.Column="2" Background="#d1c2ae">
             <ScrollViewer>
                 <ContentControl Content="{Binding ThirdColumnViewModel}" ContentTemplateSelector="{StaticResource MyDataTemplateSelector}"/>
             </ScrollViewer>

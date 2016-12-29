@@ -17,6 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelsTestProject", "Vi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsTestProject", "UtilsTestProject\UtilsTestProject.csproj", "{1D5FD907-2392-4369-8DB4-7575F662C920}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{A4A5C414-697B-4CDC-9393-023C5BA79AC4}"
+	ProjectSection(SolutionItems) = preProject
+		Bugs.txt = Bugs.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
